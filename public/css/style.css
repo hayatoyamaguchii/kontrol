@@ -1,0 +1,199 @@
+@charset "utf-8";
+
+/* 
+common
+*/
+
+* {
+  box-sizing: border-box;
+  --base-color: #fff;
+  --main-color: #000;
+  --accent-color: #D00;
+  --headerheight: 60px;
+}
+
+html {
+  font-size: 12px;
+}
+
+body {
+  margin: 0;
+  color: var(--main-color);
+  background-color: var(--base-color);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  font-weight: normal;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  transition: .1s ease-in-out;
+}
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* 
+header
+*/
+
+.header-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: calc(var(--headerheight) * 2);
+}
+
+.header-ul {
+  width: 80%;
+  height: var(--headerheight);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: calc(var(--headerheight) / 2);
+  z-index: 3;
+  background-color: var(--);
+}
+
+.header-item {
+  margin: auto 2rem;
+  color: var(--main-color);
+}
+
+.header-logo {
+  display: block;
+}
+
+/* 
+hero
+*/
+
+.hero {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: -1;
+}
+
+.hero-vid {
+  display: flex;
+  height:100%;
+  width: 100%;
+  justify-content: center;
+  align-content: end;
+}
+
+.hero > strong {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero > img {
+  height: 100%;
+  width: 100%;
+  background-color: var(--base-color);
+}
+
+.hero-cover {
+  height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+/*
+body
+*/
+
+.section {
+  height: calc(100vh - var(--headerheight));
+  width: 100vw;
+  padding: 0 2rem;
+  background-color: var(--base-color);
+}
+
+.section-title {
+  text-align: center;
+  padding: 2rem;
+  font-size: 2rem;
+}
+
+.section-subtitle {
+  font-size: 1.5rem;
+}
+
+/*
+service
+*/
+
+.service-item {
+  height: 80%;
+  width: 80%;
+  background-color: var(--base-color);
+  border-radius: 50%;
+  text-align: center;
+}
+
+.service p, .service h3 {
+  text-align: center;
+}
+
+/* 
+how to use
+*/
+
+.howtouse {
+  height: auto;
+  width: auto;
+  text-align: center;
+}
+
+.howtouse-list > li + li {
+  margin-top: 50px;
+}
+
+.howtouse h5 {
+  font-size: 1.25rem;
+}
+
+.howtouse img {
+  height: 50vh;
+}
+
+.howtouse-list > li {
+  height: 70vh;
+}
+
+/*
+sign up
+*/
+
+.signup {
+  background-color: var(--base-color);
+}
+
+/*
+footer
+*/
+
+
+/* 
+meal
+*/
+
+#addmealarticle {
+  display: flex;
+}
