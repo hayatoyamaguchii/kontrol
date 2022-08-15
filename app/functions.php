@@ -313,3 +313,13 @@ function searchbyDatebodycom($pdo)
   $dateresults = $stmt->fetchAll();
   return $dateresults;
 }
+
+function calendarbody($pdo)
+{
+  $date = filter_input(INPUT_GET, 'year') . filter_input(INPUT_GET, 'month') . filter_input(INPUT_GET, 'date');
+
+  $stmt = $pdo->query("SELECT * FROM body WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $date . "', '%Y-%m-%d');");
+
+  $dateresultsbody = $stmt->fetchAll();
+  return $dateresultsbody;
+}

@@ -22,7 +22,7 @@
       <li><h1 class="header-item">
       <a href="/home.php"><img src="img/logo.png" alt="logo" class="header-logo"></a></h1></li>
       <li><a href="/public/home.php" class="header-item">ホーム</a></li>
-      <li><a href="/public/calender.php" class="header-item">カレンダー</a></li>
+      <li><a href="/public/calendar.php" class="header-item">カレンダー</a></li>
       <li>記録<li>
       <li><a href="/public/meal.php" class="header-item">食事記録</a></li>
       <li><a href="/public/training.php" class="header-item">トレーニング記録</a></li>
