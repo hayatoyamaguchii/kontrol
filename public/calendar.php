@@ -12,6 +12,7 @@ $dateresultsbody = calendarbody($pdo);
 //date("n")は1~12,date("m")は01~12と0埋めされる
 $year=isset($_GET['year'])?(int)$_GET['year']:date("Y");
 $month=isset($_GET['month'])?(int)$_GET['month']:date("n");
+$date=isset($_GET['date'])?(int)$_GET['date']:date("j");
 
 //1日の曜日の戻り値(0:日曜,1:月...6:土)から最初の空白の数を計算(日なら0)
 $before=date("w",mktime(0,0,0,$month,1,$year));
@@ -32,13 +33,13 @@ for($i=0;$i<$row;$i++){
       //空白の部分は空文字を入れる
       $temp[]="";
     }else{
-      $date=$i*7+$j+1-$before;
+      $maxdate=$i*7+$j+1-$before;
       //年月日が一致すればdate("j")は1~31 date("d")は01~31
-      if(date('Y-m-j')===date('Y-m-j',mktime(0,0,0,$month,$date,$year))){
-        $date="*".$date;
+      if(date('Y-m-j')===date('Y-m-j',mktime(0,0,0,$month,$maxdate,$year))){
+        $maxdate="*".$maxdate;
       }
       //そうでなければ日付を入れる(今日には先頭に*がつく)
-      $temp[]=$date;
+      $temp[]=$maxdate;
     }
   }
   //calendar配列に追加
@@ -79,7 +80,7 @@ for($i=0;$i<$row;$i++){
     </table>
 
 <?php 
-if (!empty($dateresults)) {
+if (!empty($dateresultsbody)) {
   echo '<ul>
   <li>
   <table border="1">
@@ -93,9 +94,9 @@ if (!empty($dateresults)) {
 
 <?php foreach ($dateresultsbody as $dateresult): ?>
     <tr>
-    <td><?= h($getrecentbody->date); ?></td>
-    <td><?= h($getrecentbody->weight); ?></td>
-    <td><?= h($getrecentbody->bodyfat); ?></td>
+    <td><?= h($dateresult->date); ?></td>
+    <td><?= h($dateresult->weight); ?></td>
+    <td><?= h($dateresult->bodyfat); ?></td>
     <td>
       <form action="?action=delete" method="post">
         <span class="delete">x</span>
@@ -110,8 +111,6 @@ if (!empty($dateresults)) {
 </ul>
 <?php 
 if (empty($dateresultsbody)) {
-  }
-elseif (empty($dateresultsbody)) {
   echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
   }
 ?>

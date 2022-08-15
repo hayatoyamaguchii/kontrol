@@ -316,9 +316,19 @@ function searchbyDatebodycom($pdo)
 
 function calendarbody($pdo)
 {
-  $date = filter_input(INPUT_GET, 'year') . filter_input(INPUT_GET, 'month') . filter_input(INPUT_GET, 'date');
+  if (strlen(filter_input(INPUT_GET, 'month')) === 1) {
+    $testi = 0 . filter_input(INPUT_GET, 'month');
+  } else {
+    $testi = filter_input(INPUT_GET, 'month');}
 
-  $stmt = $pdo->query("SELECT * FROM body WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $date . "', '%Y-%m-%d');");
+  if (strlen(filter_input(INPUT_GET, 'date')) === 1) {
+    $testj = 0 . filter_input(INPUT_GET, 'date');
+  } else {
+    $testj = filter_input(INPUT_GET, 'date');}
+
+  $fulldate = filter_input(INPUT_GET, 'year') . $testi . $testj;
+
+  $stmt = $pdo->query("SELECT * FROM bodycom WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
 
   $dateresultsbody = $stmt->fetchAll();
   return $dateresultsbody;
