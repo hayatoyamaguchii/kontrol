@@ -316,17 +316,27 @@ function searchbyDatebodycom($pdo)
 
 function calendarbody($pdo)
 {
-  if (strlen(filter_input(INPUT_GET, 'month')) === 1) {
-    $testi = 0 . filter_input(INPUT_GET, 'month');
-  } else {
-    $testi = filter_input(INPUT_GET, 'month');}
+  // $year=filter_input(INPUT_GET, 'year');
+  // $month=filter_input(INPUT_GET, 'month');
+  // $date=filter_input(INPUT_GET, 'date');
 
-  if (strlen(filter_input(INPUT_GET, 'date')) === 1) {
-    $testj = 0 . filter_input(INPUT_GET, 'date');
-  } else {
-    $testj = filter_input(INPUT_GET, 'date');}
+  $year=isset($_GET['year'])?(int)$_GET['year']:date("Y");
+  $date=isset($_GET['date'])?(int)$_GET['date']:date("j");
+  $month=isset($_GET['month'])?(int)$_GET['month']:date("n");
 
-  $fulldate = filter_input(INPUT_GET, 'year') . $testi . $testj;
+  if (!isset($year)){
+    $year = date("Y");
+  }
+
+  if (strlen($month) === 1) {
+    $month = 0 . $month;
+  } 
+
+  if (strlen($date) === 1) {
+    $date = 0 . $date;
+  } 
+
+  $fulldate = $year . $month . $date;
 
   $stmt = $pdo->query("SELECT * FROM bodycom WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
 
