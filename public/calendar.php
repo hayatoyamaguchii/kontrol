@@ -4,8 +4,8 @@ require_once(__DIR__ . '/../app/config.php');
 require_once(__DIR__ . '/../app/functions.php');
 
 $dateresultsbody = calendarbody($pdo);
-// $dateresultsmeal = 
-// $dateresultstraining = 
+$dateresultsmeal = calendarmeal($pdo);
+$dateresultstraining = calendartraining($pdo);
 
 //クエリパラメータが来ていたらその年月、そうでなければ実行日の年月とする。
 //date("Y")は2021など4桁,date("y")は21と二桁
@@ -109,8 +109,84 @@ if (!empty($dateresultsbody)) {
   </table>
   </li>
 </ul>
+
 <?php 
-if (empty($dateresultsbody)) {
+if (!empty($dateresultsmeal)) {
+  echo '<ul>
+  <li>
+  <table border="1">
+    <tr>
+    <th>食事した日</th>
+    <th>食べた物</th>
+    <th>量(g / 個)</th>
+    <th>カロリー(kcal)</th>
+    <th>たんぱく質(g)</th>
+    <th>脂質(g)</th>
+    <th>炭水化物(g)</th>
+    </tr>';
+  }  
+?>
+
+<?php foreach ($dateresultsmeal as $dateresult): ?>
+    <tr>
+    <td><?= h($dateresult->date); ?></td>
+    <td><?= h($dateresult->food); ?></td>
+    <td><?= abs(h($dateresult->weight)); ?></td>
+    <td><?= abs(h($dateresult->cal) * h($dateresult->weight)); ?></td>
+    <td><?= abs(h($dateresult->pro) * h($dateresult->weight)); ?></td>
+    <td><?= abs(h($dateresult->fat) * h($dateresult->weight)); ?></td>
+    <td><?= abs(h($dateresult->car) * h($dateresult->weight)); ?></td>
+    <td>
+      <form action="?action=deletemeal" method="post">
+        <span class="delete">x</span>
+        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+      </form>
+    </td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+  </li>
+</ul>
+
+<?php 
+if (!empty($dateresultstraining)) {
+  echo '<ul>
+  <li>
+  <table border="1">
+    <tr>
+    <th>部位</th>
+    <th>種目</th>
+    <th>セット数</th>
+    <th>重量</th>
+    <th>レップ数</th>
+    </tr>';
+  }  
+?>
+
+<?php foreach ($dateresultstraining as $dateresult): ?>
+    <tr>
+    <td><?= h($dateresult->date); ?></td>
+    <td><?= h($dateresult->part); ?></td>
+    <td><?= abs(h($dateresult->type)); ?></td>
+    <td><?= abs(h($dateresult->sets)); ?></td>
+    <td><?= abs(h($dateresult->weight)); ?></td>
+    <td><?= abs(h($dateresult->reps)); ?></td>
+    <td>
+      <form action="?action=deletemeal" method="post">
+        <span class="delete">x</span>
+        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+      </form>
+    </td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+  </li>
+</ul>
+
+<?php 
+if (empty($dateresultsbody && $dateresultsmeal && $dateresultstraining)) {
   echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
   }
 ?>

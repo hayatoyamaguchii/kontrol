@@ -242,11 +242,11 @@ if (!empty($dateresults)) {
     <tr>
     <td><?= h($dateresult->date); ?></td>
     <td><?= h($dateresult->food); ?></td>
-    <td><?= abs(h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->cal) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->pro) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->fat) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->car) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->cal) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->pro) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->fat) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->car) * h($dateresult->weight)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>

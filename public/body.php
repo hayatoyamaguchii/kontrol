@@ -70,9 +70,9 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       </tr>
       <?php foreach ($getrecentbody as $getrecentbody): ?>
       <tr>
-      <td><?= h($getrecentbody->date); ?></td>
-      <td><?= h($getrecentbody->weight); ?></td>
-      <td><?= h($getrecentbody->bodyfat); ?></td>
+      <td><?= floatval(h($getrecentbody->date)); ?></td>
+      <td><?= floatval(h($getrecentbody->weight)); ?></td>
+      <td><?= floatval(h($getrecentbody->bodyfat)); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
