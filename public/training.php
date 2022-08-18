@@ -163,10 +163,10 @@ if (!empty($searchbydatetraining)) {
     <tr>
     <td><?= h($dateresult->date); ?></td>
     <td><?= h($dateresult->part); ?></td>
-    <td><?= abs(h($dateresult->type)); ?></td>
-    <td><?= abs(h($dateresult->sets)); ?></td>
-    <td><?= abs(h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->reps)); ?></td>
+    <td><?= floatval(h($dateresult->type)); ?></td>
+    <td><?= floatval(h($dateresult->sets)); ?></td>
+    <td><?= floatval(h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->reps)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>

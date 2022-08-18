@@ -154,11 +154,11 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       <tr>
       <td><?= h($getrecentmeal->date); ?></td>
       <td><?= h($getrecentmeal->food); ?></td>
-      <td><?=abs(h($getrecentmeal->weight)); ?></td>
-      <td><?=abs(h($getrecentmeal->cal) * h($getrecentmeal->weight)); ?></td>
-      <td><?=abs(h($getrecentmeal->pro) * h($getrecentmeal->weight)); ?></td>
-      <td><?=abs(h($getrecentmeal->fat) * h($getrecentmeal->weight)); ?></td>
-      <td><?=abs(h($getrecentmeal->car) * h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval(h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval(h($getrecentmeal->cal) * h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval(h($getrecentmeal->pro) * h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval(h($getrecentmeal->fat) * h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval(h($getrecentmeal->car) * h($getrecentmeal->weight)); ?></td>
       <td>
         <form action="?action=deletemeal" method="post">
           <span class="delete">x</span>
@@ -328,10 +328,10 @@ elseif (empty($dateresults)) {
       <tr>
       <td><?= h($getfoodlist->genre); ?></td>
       <td><?= h($getfoodlist->food); ?></td>
-      <td><?= abs(h($getfoodlist->cal)); ?></td>
-      <td><?= abs(($getfoodlist->pro)); ?></td>
-      <td><?= abs(($getfoodlist->fat)); ?></td>
-      <td><?= abs(($getfoodlist->car)); ?></td>
+      <td><?= floatval(h($getfoodlist->cal)); ?></td>
+      <td><?= floatval(($getfoodlist->pro)); ?></td>
+      <td><?= floatval(($getfoodlist->fat)); ?></td>
+      <td><?= floatval(($getfoodlist->car)); ?></td>
       <td>
         <form action="?action=deletelist" method="post">
           <span class="delete">x</span>

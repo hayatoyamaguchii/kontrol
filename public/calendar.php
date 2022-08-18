@@ -50,10 +50,15 @@ for($i=0;$i<$row;$i++){
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
+<!-- これ消す -->
+<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>
+<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>
+<?=date('j',mktime(0,0,0,$month,$date,$year))?>
+
     <h1><?=$year?>年<?=$month?>月のカレンダー</h1>
     <p>
-      <a href="?year=<?php if($month===1){echo $year - 1; } else {echo $year;}?>&month=<?php if($month===1){echo $month + 11;} else {echo $month - 1;}?>">前月</a>
-      <a href="?year=<?php if($month===12){echo $year + 1; } else {echo $year;}?>&month=<?php if($month===12){echo $month - 11;} else {echo $month + 1;}?>">翌月</a>
+      <a href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>
+      <a href="?year=<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>">翌月</a>
 
     </p>
     <table border="1">
@@ -78,6 +83,17 @@ for($i=0;$i<$row;$i++){
       </tr>
       <?php endforeach;?>
     </table>
+
+    <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
+<a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date+1,$year))?>">次の日</a>
+
+<h2>体組成記録</h2>
+
+<?php 
+if (empty($dateresultsbody)) {
+  echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
+  }
+?>
 
 <?php 
 if (!empty($dateresultsbody)) {
@@ -110,6 +126,14 @@ if (!empty($dateresultsbody)) {
   </li>
 </ul>
 
+<h2>食事記録</h2>
+
+<?php 
+if (empty($dateresultsmeal)) {
+  echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
+  }
+?>
+
 <?php 
 if (!empty($dateresultsmeal)) {
   echo '<ul>
@@ -131,11 +155,11 @@ if (!empty($dateresultsmeal)) {
     <tr>
     <td><?= h($dateresult->date); ?></td>
     <td><?= h($dateresult->food); ?></td>
-    <td><?= abs(h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->cal) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->pro) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->fat) * h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->car) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->cal) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->pro) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->fat) * h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->car) * h($dateresult->weight)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
@@ -148,6 +172,14 @@ if (!empty($dateresultsmeal)) {
   </table>
   </li>
 </ul>
+
+<h2>トレーニング記録</h2>
+
+<?php 
+if (empty($dateresultstraining)) {
+  echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
+  }
+?>
 
 <?php 
 if (!empty($dateresultstraining)) {
@@ -168,10 +200,10 @@ if (!empty($dateresultstraining)) {
     <tr>
     <td><?= h($dateresult->date); ?></td>
     <td><?= h($dateresult->part); ?></td>
-    <td><?= abs(h($dateresult->type)); ?></td>
-    <td><?= abs(h($dateresult->sets)); ?></td>
-    <td><?= abs(h($dateresult->weight)); ?></td>
-    <td><?= abs(h($dateresult->reps)); ?></td>
+    <td><?= floatval(h($dateresult->type)); ?></td>
+    <td><?= floatval(h($dateresult->sets)); ?></td>
+    <td><?= floatval(h($dateresult->weight)); ?></td>
+    <td><?= floatval(h($dateresult->reps)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
@@ -184,12 +216,6 @@ if (!empty($dateresultstraining)) {
   </table>
   </li>
 </ul>
-
-<?php 
-if (empty($dateresultsbody && $dateresultsmeal && $dateresultstraining)) {
-  echo '<p>'. $year . '年' . $month . '月' . $date. '日' . 'に該当するデータがありません。</p>';
-  }
-?>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/public/js/training.js"></script>
