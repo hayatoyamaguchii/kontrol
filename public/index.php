@@ -11,17 +11,17 @@ require_once(__DIR__ . '/app/functions.php');
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <title>Kontrol</title>
 </head>
 <header>
   <div class="header-wrapper">
     <ul class="header-ul">
       <li><h1 class="header-item">
-      <a href=""><img src="/public/img/logo.png" alt="logo" class="header-logo"></a></h1></li>
+      <a href=""><img src="/img/logo.png" alt="logo" class="header-logo"></a></h1></li>
       <li><a href="" class="header-item">Service</a></li>
       <li><a href="" class="header-item">How to use</a></li>
-      <li><a href="/public/home.php" class="header-item">Signup / Login</a></li>
+      <li><a href="/home.php" class="header-item">Signup / Login</a></li>
     </ul>
   </div> 
 </header>
@@ -30,7 +30,7 @@ require_once(__DIR__ . '/app/functions.php');
     <strong>KaradaControl</strong>
     <div class="hero-vid">
     <video loop autoplay muted preload playsinline>
-      <source src="/public/img/hero.mp4" type="video/mp4">
+      <source src="/img/hero.mp4" type="video/mp4">
     </video>
     </div>
   </div>
@@ -53,7 +53,7 @@ require_once(__DIR__ . '/app/functions.php');
     <h2 class="section-title">How to use</h2>
       <ol class="howtouse-list">
         <li>
-          <img src="/public/img/howtouse.png" alt="#">
+          <img src="/img/howtouse.png" alt="#">
           <h3 class="section-subtitle">目指す自分の設定</h3>
           <ol class="item-list">
             <li>

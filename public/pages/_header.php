@@ -21,13 +21,13 @@
     <ul class="header-ul">
       <li><h1 class="header-item">
       <a href="/home.php"><img src="img/logo.png" alt="logo" class="header-logo"></a></h1></li>
-      <li><a href="/public/home.php" class="header-item">ホーム</a></li>
-      <li><a href="/public/calendar.php" class="header-item">カレンダー</a></li>
+      <li><a href="/home.php" class="header-item">ホーム</a></li>
+      <li><a href="/calendar.php" class="header-item">カレンダー</a></li>
       <li>記録<li>
-      <li><a href="/public/meal.php" class="header-item">食事記録</a></li>
-      <li><a href="/public/training.php" class="header-item">トレーニング記録</a></li>
-      <li><a href="/public/body.php" class="header-item">体組成記録</a></li>
-      <li><a href="/public/option.php" class="header-item">設定</a></li>
+      <li><a href="/meal.php" class="header-item">食事記録</a></li>
+      <li><a href="/training.php" class="header-item">トレーニング記録</a></li>
+      <li><a href="/body.php" class="header-item">体組成記録</a></li>
+      <li><a href="/account.php" class="header-item">アカウント設定</a></li>
     </ul>
   </div>
 </header>

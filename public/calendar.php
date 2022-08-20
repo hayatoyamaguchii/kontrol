@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 $dateresultsbody = calendarbody($pdo);
 $dateresultsmeal = calendarmeal($pdo);
@@ -218,6 +218,6 @@ if (!empty($dateresultstraining)) {
 </ul>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
-<script src="/public/js/training.js"></script>
+<script src="/js/training.js"></script>
 </body>
 </html>

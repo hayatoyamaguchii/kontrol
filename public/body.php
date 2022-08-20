@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/body.php');
+  header('Location: ' . SITE_URL . '/body.php');
   exit;
 }
 
@@ -56,7 +56,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
   </form>
 </section>
 
-<a href="/public/allbody.php">全ての記録</a>
+<a href="/allbody.php">全ての記録</a>
 
 <section id="recentbodylist">
   <h1>最近の記録</h1>

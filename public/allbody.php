@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/allmeal.php');
+  header('Location: ' . SITE_URL . '/allmeal.php');
   exit;
 }
 
@@ -55,7 +55,7 @@ $getbody = getBodycom($pdo);
   </ul>
 </section>
 
-<a href="/public/body.php">戻る</a>
+<a href="/body.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 </body>

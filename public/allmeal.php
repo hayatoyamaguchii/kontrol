@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/allmeal.php');
+  header('Location: ' . SITE_URL . '/allmeal.php');
   exit;
 }
 
@@ -62,9 +62,9 @@ $getmeals = getMeals($pdo);
   </ul>
 </section>
 
-<a href="/public/meal.php">戻る</a>
+<a href="/meal.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
-<script src="/public/js/meal.js"></script>
+<script src="/js/meal.js"></script>
 </body>
 </html>

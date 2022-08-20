@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/alltraining.php');
+  header('Location: ' . SITE_URL . '/alltraining.php');
   exit;
 }
 
@@ -61,9 +61,9 @@ $gettrainings = getTrainings($pdo);
   </ul>
 </section>
 
-<a href="/public/training.php">戻る</a>
+<a href="/training.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
-<script src="/public/js/training.js"></script>
+<script src="/js/training.js"></script>
 </body>
 </html>

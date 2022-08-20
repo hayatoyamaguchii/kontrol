@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/training.php');
+  header('Location: ' . SITE_URL . '/training.php');
   exit;
 }
 
@@ -83,7 +83,7 @@ $searchbytype = filter_input(INPUT_GET, 'searchbytype');
   </li>
 </form>
 
-<a href="/public/alltraining.php">全ての記録</a>
+<a href="/alltraining.php">全ての記録</a>
 
 <section id="recenttrainings">
   <h1>最近の記録</h1>
@@ -188,6 +188,6 @@ elseif (empty($dateresults)) {
 ?>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
-<script src="/public/js/training.js"></script>
+<script src="/js/training.js"></script>
 </body>
 </html>

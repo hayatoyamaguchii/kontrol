@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../app/config.php');
-require_once(__DIR__ . '/../app/functions.php');
+require_once(__DIR__ . '/app/config.php');
+require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/public/meal.php');
+  header('Location: ' . SITE_URL . '/meal.php');
   exit;
 }
 
@@ -134,7 +134,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 </section>
 </article>
 
-<a href="/public/allmeal.php">全ての記録</a>
+<a href="/allmeal.php">全ての記録</a>
 
 <section id="recentmeallist">
   <h1>最近の記録</h1>
@@ -345,6 +345,6 @@ elseif (empty($dateresults)) {
 </section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
-<script src="/public/js/meal.js"></script>
+<script src="/js/meal.js"></script>
 </body>
 </html>
