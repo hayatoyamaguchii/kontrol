@@ -428,12 +428,13 @@ function signupSendmail($pdo)
           mb_send_mail($to, $subject, $body, $header);
       } else {
         // 登録可能な場合
-          $urltoken = hash('sha256',uniqid(rand(),1));
-          $url = "https://kontrol.hayato-yamaguchi.com/signup.php?token=".$urltoken;
+          $token = hash('sha256',uniqid(rand(),1));
+          $url =SITE_URL . "/signup.php?token=".$token;
+          $_SESSION['mail'] = $mail;
           try{
               $sql = "INSERT INTO pre_user (token, mail, created, status) VALUES (:token, :mail, now(), '0')";
               $stmt = $pdo->prepare($sql);
-              $stmt->bindValue(':token', $urltoken, PDO::PARAM_STR);
+              $stmt->bindValue(':token', $token, PDO::PARAM_STR);
               $stmt->bindValue(':mail', $mail, PDO::PARAM_STR);
               $stmt->execute();
               $message = "メールをお送りしました。24時間以内にメールに記載されたURLからご登録下さい。";

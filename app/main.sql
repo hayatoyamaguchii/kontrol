@@ -22,7 +22,7 @@ CREATE TABLE user (
 
 CREATE TABLE pre_user (
   id INT NOT NULL AUTO_INCREMENT,
-  token VARCHAR(50),
+  token VARCHAR(64),
   mail VARCHAR(50),
   created DATETIME,
   status BOOLEAN,
