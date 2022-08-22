@@ -50,11 +50,6 @@ for($i=0;$i<$row;$i++){
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<!-- これ消す -->
-<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>
-<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>
-<?=date('j',mktime(0,0,0,$month,$date,$year))?>
-
     <h1><?=$year?>年<?=$month?>月のカレンダー</h1>
     <p>
       <a href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>

@@ -1,11 +1,33 @@
 USE yamaguchihayato_kontrol;
 
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS pre_user;
 DROP TABLE IF EXISTS trainings;
 DROP TABLE IF EXISTS meal;
 DROP TABLE IF EXISTS foodlist;
 DROP TABLE IF EXISTS mealwithfood;
 DROP TABLE IF EXISTS body;
 DROP TABLE IF EXISTS bodycom;
+
+CREATE TABLE user (
+  id INT NOT NULL AUTO_INCREMENT,
+  mail VARCHAR(50),
+  password VARCHAR(100),
+  name VARCHAR(20),
+  status BOOLEAN,
+  created DATETIME,
+  updated DATETIME,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE pre_user (
+  id INT NOT NULL AUTO_INCREMENT,
+  token VARCHAR(50),
+  mail VARCHAR(50),
+  created DATETIME,
+  status BOOLEAN,
+  PRIMARY KEY (id)
+);
 
 CREATE TABLE trainings (
   id INT NOT NULL AUTO_INCREMENT,
@@ -89,3 +111,4 @@ SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, fo
 SELECT * FROM mealwithfood;
 SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('2022-07-21', '%Y-%m-%d');
 SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food ORDER BY meal.date DESC LIMIT 5;
+SELECT * FROM user WHERE mail = 'yamaguchihayatoo@gmail.com';

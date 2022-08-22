@@ -391,3 +391,74 @@ function calendartraining($pdo)
   $dateresultstraining = $stmt->fetchAll();
   return $dateresultstraining;
 }
+
+// calendarここまで
+// signupここから
+
+function signupSendmail($pdo)
+{
+  if (empty($_POST['mail'])) {
+      //メールアドレス空欄の場合
+      $errors['mail'] = 'メールアドレスが未入力です。';
+  }else{
+      $mail = $_POST['mail'];
+    if(!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $mail)){
+      // メールアドレスの形式が正しくない場合
+      $errors['mail_check'] = "メールアドレスの形式が正しくありません。";
+    } else {
+        $stmt = $pdo->prepare("SELECT id FROM user WHERE mail = :mail;");
+        $stmt -> bindValue(':mail', $mail, PDO::PARAM_STR);
+        $stmt -> execute();
+        $dbcheck = $stmt->fetch(PDO::FETCH_ASSOC);
+      if (isset($dbcheck["id"])) {
+          // 登録済みメール送信
+          mb_language("Japanese"); 
+          mb_internal_encoding("UTF-8");
+          
+          $email = "noreply-kontrol@hayato-yamaguchi.com";
+          $subject = "【Kontrol】 既にアカウントが存在しています。";
+          $body = <<< EOM
+          "Kontrol運営です。
+          登録を試みましたが、ご利用のメールアドレス $mail は既に登録済みです。
+          ログインするか、他のメールアドレスをご利用ください。
+          EOM;
+          $to = $mail;
+          $header = "From: $email";
+          
+          mb_send_mail($to, $subject, $body, $header);
+      } else {
+        // 登録可能な場合
+          $urltoken = hash('sha256',uniqid(rand(),1));
+          $url = "https://kontrol.hayato-yamaguchi.com/signup.php?token=".$urltoken;
+          try{
+              $sql = "INSERT INTO pre_user (token, mail, created, status) VALUES (:token, :mail, now(), '0')";
+              $stmt = $pdo->prepare($sql);
+              $stmt->bindValue(':token', $urltoken, PDO::PARAM_STR);
+              $stmt->bindValue(':mail', $mail, PDO::PARAM_STR);
+              $stmt->execute();
+              $message = "メールをお送りしました。24時間以内にメールに記載されたURLからご登録下さい。";
+          }catch (PDOException $e){
+              print('Error:'.$e->getMessage());
+              exit();
+          }
+          // 登録可能メール送信
+          mb_language("Japanese"); 
+          mb_internal_encoding("UTF-8");
+          
+          $email = "noreply-kontrol@hayato-yamaguchi.com";
+          $subject = "【Kontrol】 会員登録";
+          $body = <<< EOM
+          Kontrol運営です。
+          仮登録が完了いたしました。
+          24時間以内に下記URLから本登録へお進みください。
+          心当たりのない場合は削除してください。
+          {$url}
+          EOM;
+          $to = $mail;
+          $header = "From: $email";
+          
+          mb_send_mail($to, $subject, $body, $header);
+      }
+    }
+  }
+}
