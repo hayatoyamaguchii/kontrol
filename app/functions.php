@@ -416,7 +416,7 @@ function signupSendmail($pdo)
           mb_internal_encoding("UTF-8");
           
           $email = "noreply-kontrol@hayato-yamaguchi.com";
-          $subject = "【Kontrol】 既にアカウントが存在しています。";
+          $subject = "【Kontrol】 既にアカウントが存在しています";
           $body = <<< EOM
           "Kontrol運営です。
           登録を試みましたが、ご利用のメールアドレス $mail は既に登録済みです。
@@ -428,13 +428,13 @@ function signupSendmail($pdo)
           mb_send_mail($to, $subject, $body, $header);
       } else {
         // 登録可能な場合
-          $token = hash('sha256',uniqid(rand(),1));
-          $url =SITE_URL . "/signup.php?token=".$token;
+          $urltoken = hash('sha256',uniqid(rand(),1));
+          $url =SITE_URL . "/signup.php?urltoken=".$urltoken;
           $_SESSION['mail'] = $mail;
           try{
-              $sql = "INSERT INTO pre_user (token, mail, created, status) VALUES (:token, :mail, now(), '0')";
+              $sql = "INSERT INTO pre_user (urltoken, mail, created, status) VALUES (:urltoken, :mail, now(), '0')";
               $stmt = $pdo->prepare($sql);
-              $stmt->bindValue(':token', $token, PDO::PARAM_STR);
+              $stmt->bindValue(':urltoken', $urltoken, PDO::PARAM_STR);
               $stmt->bindValue(':mail', $mail, PDO::PARAM_STR);
               $stmt->execute();
               $message = "メールをお送りしました。24時間以内にメールに記載されたURLからご登録下さい。";
@@ -447,7 +447,7 @@ function signupSendmail($pdo)
           mb_internal_encoding("UTF-8");
           
           $email = "noreply-kontrol@hayato-yamaguchi.com";
-          $subject = "【Kontrol】 会員登録";
+          $subject = "【Kontrol】 会員登録手続き";
           $body = <<< EOM
           Kontrol運営です。
           仮登録が完了いたしました。
@@ -462,4 +462,44 @@ function signupSendmail($pdo)
       }
     }
   }
+}
+
+function signup($pdo) {
+  $mail = h($_SESSION['mail']);
+  if ($mail === '') {
+    return;
+  }
+  $password = password_hash(trim(filter_input(INPUT_POST, 'password')), PASSWORD_DEFAULT);
+  if ($password === '') {
+    return;
+  }
+  $name = trim(filter_input(INPUT_POST, 'name'));
+  if ($name === '') {
+    return;
+  }
+  // userに登録
+  $stmt = $pdo->prepare("INSERT INTO user (mail, password, name, created, updated) VALUES (:mail, :password, :name, now(), now());");
+  $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
+  $stmt->bindValue('password', $password, PDO::PARAM_STR);
+  $stmt->bindValue('name', $name, PDO::PARAM_STR);
+  $stmt->execute();
+  // pre_userのステータスを登録済みに更新
+  $stmt = $pdo->prepare("UPDATE pre_user SET status = 1 WHERE mail = :mail;");
+  $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
+  $stmt->execute();
+
+  // 登録完了メール送信
+  mb_language("Japanese"); 
+  mb_internal_encoding("UTF-8");
+  
+  $email = "noreply-kontrol@hayato-yamaguchi.com";
+  $subject = "【Kontrol】 会員登録完了のお知らせ";
+  $body = <<< EOM
+  Kontrol運営です。
+  会員登録が完了いたしました。
+  EOM;
+  $to = $mail;
+  $header = "From: $email";
+  
+  mb_send_mail($to, $subject, $body, $header);
 }

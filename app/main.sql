@@ -14,7 +14,6 @@ CREATE TABLE user (
   mail VARCHAR(50),
   password VARCHAR(100),
   name VARCHAR(20),
-  status BOOLEAN,
   created DATETIME,
   updated DATETIME,
   PRIMARY KEY (id)
@@ -22,7 +21,7 @@ CREATE TABLE user (
 
 CREATE TABLE pre_user (
   id INT NOT NULL AUTO_INCREMENT,
-  token VARCHAR(64),
+  urltoken VARCHAR(64),
   mail VARCHAR(50),
   created DATETIME,
   status BOOLEAN,
