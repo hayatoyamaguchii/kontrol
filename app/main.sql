@@ -13,7 +13,6 @@ CREATE TABLE user (
   id INT NOT NULL AUTO_INCREMENT,
   mail VARCHAR(50),
   password VARCHAR(100),
-  name VARCHAR(20),
   created DATETIME,
   updated DATETIME,
   PRIMARY KEY (id)

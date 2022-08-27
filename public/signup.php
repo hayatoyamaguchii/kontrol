@@ -52,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="?urltoken=<?= $urltoken; ?>&action=signup" method="post">
     <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
       <ul>
-          <li><input type="hidden" name="mail" value="<?=h($_SESSION['mail'])?>" require>メールアドレス：<?=h($_SESSION['mail'])?></li>
-          <li><label for="password">パスワード：</label><input type="password" name="password" require></li>
-          <li><label for="name">表示名：</label><input type="text" name="name" require></li>
+          <li><input type="hidden" name="mail" value="<?=h($_SESSION['mail'])?>" require>メールアドレス<?=h($_SESSION['mail'])?></li>
+          <li><label for="password">パスワード</label><input type="password" name="password" require></li>
+          <li><label for="name">表示名</label><input type="text" name="name" require></li>
           <input type="hidden" name="urltoken" value="<?=$urltoken?>">
           <a href="<?=SITE_URL . '/signup.php'?>"><button type="submit" name="signup">登録</button></a>
       </ul>
@@ -65,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>
   <?php endif; ?>
 
-<?php elseif(isset($_GET['sended'])): ?>
+<?php elseif($_GET['state=sended']): ?>
 <p>メールを送信しました。24時間以内にご確認ください。</p>
 
-<?php elseif(isset($_GET['done'])): ?>
-<p>登録が完了しました。早速使ってみましょう！</p>
-<p><a href="<?=SITE_URL . "/signin.php"?>">ログインはこちらから</a></p>
+<?php elseif($_GET['state=done']): ?>
+<p>登録が完了しました。</p>
+<p><a href="<?=SITE_URL . "/login.php"?>">ログインはこちらから</a></p>
 <?php endif; ?>
 
 
