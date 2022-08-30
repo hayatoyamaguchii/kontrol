@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch ($action) {  
     case 'login':
       login($pdo);
-      header('Location: ' . SITE_URL . '/login.php?state=done');
+      // header('Location: ' . SITE_URL . '/login.php');
       break;
     default:
       exit;
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <h1>ログイン</h1>
-<?php if(!isset($_GET['state']) && !isset($_SESSION['loggedin'])): ?>
+<?php if(!isset($_GET['state'])): ?>
 <form action="?action=login" method="post">
   <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
   <ul>
@@ -33,33 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </ul>
 </form>
 
-<?php 
-    $mail = $_POST['mail'];
-    $stmt = $dbh->prepare("SELECT * FROM users WHERE mail = :mail;");
-    $stmt->bindValue(':mail', $mail);
-    $stmt->execute();
-    $db = $stmt->fetch();
+<?php elseif ($_GET['state'] === 'error'): ?>
+<p>メールアドレスもしくはパスワードが間違っています。</p>
+<p><a href="<?=SITE_URL . "/login.php"?>">戻る</a></p>
+<p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>
 
-    if (password_verify($_POST['password'], $db['password'])) {
-      //DBのユーザー情報をセッションに保存
-      $_SESSION['id'] = $member['id'];
-      $_SESSION['name'] = $member['name'];
-      $msg = 'ログインが完了しました。早速使ってみましょう！';
-      $link = '<a href="home.php">ホームへ進む</a>';
-  } else {
-      $msg = 'メールアドレスもしくはパスワードが間違っています。';
-      $link = '  <p><a href="<?=SITE_URL . "/login.php"?>">戻る</a></p>
-      <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>';
-  }
 
-      // $_SESSION['mail'] = implode($mail)
-?>
-
-<p><?php echo $msg; ?></p>
-<?php echo $link; ?>
-
-<?php elseif ($_SESSION['loggedin']): ?>
-<?php header('Location: ' . SITE_URL . '/home.php'); ?>
+<?php elseif ($_GET['state'] === 'loggedin'): ?>
+<p>ログインが完了しました。早速使ってみましょう！</p>
+<a href="home.php">ホームへ進む</a>
 <?php endif; ?>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>

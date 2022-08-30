@@ -432,12 +432,10 @@ function signupSendmail($pdo)
           $url =SITE_URL . "/signup.php?urltoken=".$urltoken;
           $_SESSION['mail'] = $mail;
           try{
-              $sql = "INSERT INTO pre_user (urltoken, mail, created, status) VALUES (:urltoken, :mail, now(), '0')";
-              $stmt = $pdo->prepare($sql);
+              $stmt = $pdo->prepare("INSERT INTO pre_user (urltoken, mail, created, status) VALUES (:urltoken, :mail, now(), '0');");
               $stmt->bindValue(':urltoken', $urltoken, PDO::PARAM_STR);
               $stmt->bindValue(':mail', $mail, PDO::PARAM_STR);
               $stmt->execute();
-              $message = "メールをお送りしました。24時間以内にメールに記載されたURLからご登録下さい。";
           }catch (PDOException $e){
               print('Error:'.$e->getMessage());
               exit();
@@ -473,16 +471,12 @@ function signup($pdo) {
   if ($password === '') {
     return;
   }
-  $name = trim(filter_input(INPUT_POST, 'name'));
-  if ($name === '') {
-    return;
-  }
   // userに登録
-  $stmt = $pdo->prepare("INSERT INTO user (mail, password, name, created, updated) VALUES (:mail, :password, :name, now(), now());");
+  $stmt = $pdo->prepare("INSERT INTO user (mail, password, created, updated) VALUES (:mail, :password, now(), now());");
   $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
   $stmt->bindValue('password', $password, PDO::PARAM_STR);
-  $stmt->bindValue('name', $name, PDO::PARAM_STR);
   $stmt->execute();
+  
   // pre_userのステータスを登録済みに更新
   $stmt = $pdo->prepare("UPDATE pre_user SET status = 1 WHERE mail = :mail;");
   $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
@@ -502,4 +496,27 @@ function signup($pdo) {
   $header = "From: $email";
   
   mb_send_mail($to, $subject, $body, $header);
+}
+
+function login($pdo) {
+
+  $mail = trim($_POST['mail']);
+  
+  $stmt = $pdo->prepare("SELECT * FROM user WHERE mail = :mail;");
+  $stmt->bindValue(':mail', $mail);
+  $stmt->execute();
+  $db = $stmt->fetch(PDO::FETCH_ASSOC);
+// このへんびみょう
+  if (password_verify($_POST['password'], $db['password'])) {
+    //DBのユーザー情報をセッションに保存
+    $_SESSION['mail'] = $mail;
+    $_GET['state'] = 'loggedin';
+    $msg = 'ログインが完了しました。早速使ってみましょう！';
+    $link = '<a href="home.php">ホームへ進む</a>';
+} else {
+    $_GET['state'] = 'error';
+    $msg = 'メールアドレスもしくはパスワードが間違っています。';
+    $link = '  <p><a href="<?=SITE_URL . "/login.php"?>">戻る</a></p>
+    <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>';
+}
 }
