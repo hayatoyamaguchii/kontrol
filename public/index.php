@@ -19,9 +19,10 @@ require_once(__DIR__ . '/app/functions.php');
     <ul class="header-ul">
       <li><h1 class="header-item">
       <a href=""><img src="/img/logo.png" alt="logo" class="header-logo"></a></h1></li>
-      <li><a href="" class="header-item">Service</a></li>
-      <li><a href="" class="header-item">How to use</a></li>
-      <li><a href="/home.php" class="header-item">Signup / Login</a></li>
+      <li><a href="" class="header-item">サービス紹介</a></li>
+      <li><a href="" class="header-item">使い方</a></li>
+      <li><a href="/signup.php" class="header-item">新規会員登録</a></li>
+      <li><a href="/login.php" class="header-item">ログイン</a></li>
     </ul>
   </div> 
 </header>
@@ -30,7 +31,7 @@ require_once(__DIR__ . '/app/functions.php');
     <strong>KaradaControl</strong>
     <div class="hero-vid">
     <video loop autoplay muted preload playsinline>
-      <source src="/img/hero.mp4" type="video/mp4">
+      <!-- <source src="/img/hero.mp4" type="video/mp4"> -->
     </video>
     </div>
   </div>

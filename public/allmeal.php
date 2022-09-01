@@ -3,6 +3,10 @@
 require_once(__DIR__ . '/app/config.php');
 require_once(__DIR__ . '/app/functions.php');
 
+if (!isset($_SESSION['mail'])) {
+  header('Location: ' . SITE_URL . '/login.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   validateToken();
   $action = filter_input(INPUT_GET, 'action');

@@ -10,11 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch ($action) {  
     case 'login':
       login($pdo);
-      // header('Location: ' . SITE_URL . '/login.php');
       break;
     default:
       exit;
   }
+}
+
+if (isset($_SESSION['mail'])) {
+  header('Location: ' . SITE_URL . '/home.php');
 }
 
 ?>

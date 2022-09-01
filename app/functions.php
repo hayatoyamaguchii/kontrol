@@ -501,13 +501,18 @@ function signup($pdo) {
 function login($pdo) {
 
   $mail = trim($_POST['mail']);
-  
+  $password = '';
+  if (isset($_POST['password'])) {
+  $password = $_POST['password'];
+  }
+
   $stmt = $pdo->prepare("SELECT * FROM user WHERE mail = :mail;");
   $stmt->bindValue(':mail', $mail);
   $stmt->execute();
   $db = $stmt->fetch(PDO::FETCH_ASSOC);
+  $dbpass = $db['password'];
 // このへんびみょう
-  if (password_verify($_POST['password'], $db['password'])) {
+  if (password_verify($password, $dbpass)) {
     //DBのユーザー情報をセッションに保存
     $_SESSION['mail'] = $mail;
     $_GET['state'] = 'loggedin';

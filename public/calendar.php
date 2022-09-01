@@ -3,6 +3,10 @@
 require_once(__DIR__ . '/app/config.php');
 require_once(__DIR__ . '/app/functions.php');
 
+if (!isset($_SESSION['mail'])) {
+  header('Location: ' . SITE_URL . '/login.php');
+}
+
 $dateresultsbody = calendarbody($pdo);
 $dateresultsmeal = calendarmeal($pdo);
 $dateresultstraining = calendartraining($pdo);
@@ -79,7 +83,7 @@ for($i=0;$i<$row;$i++){
       <?php endforeach;?>
     </table>
 
-    <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
+    <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date-1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date-1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
 <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date+1,$year))?>">次の日</a>
 
 <h2>体組成記録</h2>
