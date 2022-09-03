@@ -1,113 +1,76 @@
 <?php
 
-createToken();
-
-try {
-  $pdo = new PDO(
-    DSN,
-    DB_USER,
-    DB_PASS,
-    [
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-    ]
-  );
-} catch (PDOException $e) {
-  echo $e->getMessage();
-  exit;
-}
-
-function h($str)
-{
-  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
-
-function createToken()
-{
-  if(!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-  }
-}
-
-function validateToken()
-{
-  if (
-    empty($_SESSION['token']) ||
-    $_SESSION['token'] !== filter_input(INPUT_POST, 'token')
-  ) {
-    exit('Post requestが不正です。');
-  }
-}
+Token::create();
 
 // ここからtraining
 
-function addTrainings($pdo)
-{
-  // 条件式（$i < 10)を、（次のデータがある場合）に書き換えたい。
-  // 現状だと5回繰り返して送信することになっている。
-  for($i = 0; $i < 5; $i++) {
+// function addTrainings($pdo)
+// {
+//   // 条件式（$i < 10)を、（次のデータがある場合）に書き換えたい。
+//   // 現状だと5回繰り返して送信することになっている。
+//   for($i = 0; $i < 5; $i++) {
 
-  $trainingdate = trim(filter_input(INPUT_POST, 'date'));
-  if ($trainingdate === '') {
-    return;
-  }
-  $trainingpart = trim(filter_input(INPUT_POST, 'part'));
-  if ($trainingpart === '') {
-    return;
-  }
-  $trainingtype = trim(filter_input(INPUT_POST, 'type'));
-  if ($trainingtype === '') {
-    return;
-  }
-  $trainingsets = trim(filter_input(INPUT_POST, 'sets'));
-  if ($trainingsets === '') {
-    return;
-  }
-  $trainingweight = trim(filter_input(INPUT_POST, 'weight' . $i));
-  if ($trainingweight === '') {
-    return;
-  }
-  $trainingreps = trim(filter_input(INPUT_POST, 'reps' . $i));
-  if ($trainingreps === '') {
-    return;
-  }
+//   $trainingdate = trim(filter_input(INPUT_POST, 'date'));
+//   if ($trainingdate === '') {
+//     return;
+//   }
+//   $trainingpart = trim(filter_input(INPUT_POST, 'part'));
+//   if ($trainingpart === '') {
+//     return;
+//   }
+//   $trainingtype = trim(filter_input(INPUT_POST, 'type'));
+//   if ($trainingtype === '') {
+//     return;
+//   }
+//   $trainingsets = trim(filter_input(INPUT_POST, 'sets'));
+//   if ($trainingsets === '') {
+//     return;
+//   }
+//   $trainingweight = trim(filter_input(INPUT_POST, 'weight' . $i));
+//   if ($trainingweight === '') {
+//     return;
+//   }
+//   $trainingreps = trim(filter_input(INPUT_POST, 'reps' . $i));
+//   if ($trainingreps === '') {
+//     return;
+//   }
 
-  $stmt = $pdo->prepare("INSERT INTO trainings (date, part, type, sets, weight, reps) VALUES (:date, :part, :type, :sets, :weight, :reps)");
-  $stmt->bindValue('date', $trainingdate, PDO::PARAM_STR);
-  $stmt->bindValue('part', $trainingpart, PDO::PARAM_STR);
-  $stmt->bindValue('type', $trainingtype, PDO::PARAM_STR);
-  $stmt->bindValue('sets', $trainingsets, PDO::PARAM_STR);
-  $stmt->bindValue('weight', $trainingweight, PDO::PARAM_STR);
-  $stmt->bindValue('reps', $trainingreps, PDO::PARAM_STR);
-  $stmt->execute();
-  }
-}
+//   $stmt = $pdo->prepare("INSERT INTO trainings (date, part, type, sets, weight, reps) VALUES (:date, :part, :type, :sets, :weight, :reps)");
+//   $stmt->bindValue('date', $trainingdate, PDO::PARAM_STR);
+//   $stmt->bindValue('part', $trainingpart, PDO::PARAM_STR);
+//   $stmt->bindValue('type', $trainingtype, PDO::PARAM_STR);
+//   $stmt->bindValue('sets', $trainingsets, PDO::PARAM_STR);
+//   $stmt->bindValue('weight', $trainingweight, PDO::PARAM_STR);
+//   $stmt->bindValue('reps', $trainingreps, PDO::PARAM_STR);
+//   $stmt->execute();
+//   }
+// }
 
-function getTrainings($pdo)
-{
-  $stmt = $pdo->query("SELECT * FROM trainings ORDER BY date DESC");
-  $trainings = $stmt->fetchAll();
-  return $trainings;
-}
+// function deleteTrainings($pdo)
+// {
+//   $id = filter_input(INPUT_POST, 'id');
+//   if (empty($id)) {
+//     return;
+//   }
 
-function getrecentTrainings($pdo)
-{
-  $stmt = $pdo->query("SELECT * FROM trainings ORDER BY date DESC LIMIT 5");
-  $recenttrainings = $stmt->fetchAll();
-  return $recenttrainings;
-}
+//   $stmt = $pdo->prepare("DELETE FROM trainings WHERE id = :id");
+//   $stmt->bindValue('id', $id, PDO::PARAM_INT);
+//   $stmt->execute();
+// }
 
-function deleteTrainings($pdo)
-{
-  $id = filter_input(INPUT_POST, 'id');
-  if (empty($id)) {
-    return;
-  }
+// function getTrainings($pdo)
+// {
+//   $stmt = $pdo->query("SELECT * FROM trainings ORDER BY date DESC");
+//   $trainings = $stmt->fetchAll();
+//   return $trainings;
+// }
 
-  $stmt = $pdo->prepare("DELETE FROM trainings WHERE id = :id");
-  $stmt->bindValue('id', $id, PDO::PARAM_INT);
-  $stmt->execute();
-}
+// function getrecentTrainings($pdo)
+// {
+//   $stmt = $pdo->query("SELECT * FROM trainings ORDER BY date DESC LIMIT 5");
+//   $recenttrainings = $stmt->fetchAll();
+//   return $recenttrainings;
+// }
 
 function searchbyDatetraining($pdo)
 {
@@ -121,9 +84,9 @@ function searchbyDatetraining($pdo)
 
 function searchbyTypetraining($pdo)
 {
-  $searchbydate = filter_input(INPUT_GET, 'searchbytype');
+  $searchbytype = filter_input(INPUT_GET, 'searchbytype');
 
-  $stmt = $pdo->query("SELECT * FROM trainings WHERE type = '" . $searchbydate . "';");
+  $stmt = $pdo->query("SELECT * FROM trainings WHERE type = '" . $searchbytype . "';");
 
   $dateresults = $stmt->fetchAll();
   return $dateresults;
@@ -397,15 +360,11 @@ function calendartraining($pdo)
 
 function signupSendmail($pdo)
 {
-  if (empty($_POST['mail'])) {
-      //メールアドレス空欄の場合
-      $errors['mail'] = 'メールアドレスが未入力です。';
-  }else{
-      $mail = $_POST['mail'];
-    if(!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $mail)){
-      // メールアドレスの形式が正しくない場合
-      $errors['mail_check'] = "メールアドレスの形式が正しくありません。";
+  if (empty($_POST['mail']) && !preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $mail)) {
+    // メールアドレスが正しくない場合
     } else {
+        $mail = $_POST['mail'];
+
         $stmt = $pdo->prepare("SELECT id FROM user WHERE mail = :mail;");
         $stmt -> bindValue(':mail', $mail, PDO::PARAM_STR);
         $stmt -> execute();
@@ -460,10 +419,9 @@ function signupSendmail($pdo)
       }
     }
   }
-}
 
 function signup($pdo) {
-  $mail = h($_SESSION['mail']);
+  $mail = Utils::h($_SESSION['mail']);
   if ($mail === '') {
     return;
   }
@@ -510,18 +468,18 @@ function login($pdo) {
   $stmt->bindValue(':mail', $mail);
   $stmt->execute();
   $db = $stmt->fetch(PDO::FETCH_ASSOC);
-  $dbpass = $db['password'];
-// このへんびみょう
-  if (password_verify($password, $dbpass)) {
-    //DBのユーザー情報をセッションに保存
-    $_SESSION['mail'] = $mail;
-    $_GET['state'] = 'loggedin';
-    $msg = 'ログインが完了しました。早速使ってみましょう！';
-    $link = '<a href="home.php">ホームへ進む</a>';
-} else {
+  // dbからパスワードがもらえれば$dbpassに入れる。もらえなければエラーを吐いてリターン。
+  if (isset($db['password'])) {$dbpass = $db['password'];
+  } else {
     $_GET['state'] = 'error';
-    $msg = 'メールアドレスもしくはパスワードが間違っています。';
-    $link = '  <p><a href="<?=SITE_URL . "/login.php"?>">戻る</a></p>
-    <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>';
-}
+    return;
+  }
+  // パスワードが一致していたらセッションにメールを渡してログイン完了。不一致であればエラーを吐く。
+  if (password_verify($password, $dbpass)) {
+      //メールアドレスをセッションに保存し、ログイン状態に。
+      $_SESSION['mail'] = $mail;
+      $_GET['state'] = 'loggedin';
+  } else {
+      $_GET['state'] = 'error';
+  }
 }

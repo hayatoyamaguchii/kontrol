@@ -8,7 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {
@@ -42,14 +42,14 @@ $getbody = getBodycom($pdo);
       </tr>
       <?php foreach ($getbody as $getbody): ?>
       <tr>
-      <td><?= h($getbody->date); ?></td>
-      <td><?= h($getbody->weight); ?></td>
-      <td><?= h($getbody->bodyfat); ?></td>
+      <td><?= Utils::h($getbody->date); ?></td>
+      <td><?= Utils::h($getbody->weight); ?></td>
+      <td><?= Utils::h($getbody->bodyfat); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getbody->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getbody->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>

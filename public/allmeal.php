@@ -8,7 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {
@@ -45,18 +45,18 @@ $getmeals = getMeals($pdo);
       </tr>
       <?php foreach ($getmeals as $getmeal): ?>
       <tr>
-      <td><?= h($getmeal->date); ?></td>
-      <td><?= h($getmeal->food); ?></td>
-      <td><?= h($getmeal->weight); ?></td>
-      <td><?= h($getmeal->cal) * h($getmeal->weight); ?></td>
-      <td><?= h($getmeal->pro) * h($getmeal->weight); ?></td>
-      <td><?= h($getmeal->fat) * h($getmeal->weight); ?></td>
-      <td><?= h($getmeal->car) * h($getmeal->weight); ?></td>
+      <td><?= Utils::h($getmeal->date); ?></td>
+      <td><?= Utils::h($getmeal->food); ?></td>
+      <td><?= Utils::h($getmeal->weight); ?></td>
+      <td><?= Utils::h($getmeal->cal) * Utils::h($getmeal->weight); ?></td>
+      <td><?= Utils::h($getmeal->pro) * Utils::h($getmeal->weight); ?></td>
+      <td><?= Utils::h($getmeal->fat) * Utils::h($getmeal->weight); ?></td>
+      <td><?= Utils::h($getmeal->car) * Utils::h($getmeal->weight); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getmeal->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getmeal->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>

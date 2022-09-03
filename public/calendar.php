@@ -109,14 +109,14 @@ if (!empty($dateresultsbody)) {
 
 <?php foreach ($dateresultsbody as $dateresult): ?>
     <tr>
-    <td><?= h($dateresult->date); ?></td>
-    <td><?= h($dateresult->weight); ?></td>
-    <td><?= h($dateresult->bodyfat); ?></td>
+    <td><?= Utils::h($dateresult->date); ?></td>
+    <td><?= Utils::h($dateresult->weight); ?></td>
+    <td><?= Utils::h($dateresult->bodyfat); ?></td>
     <td>
       <form action="?action=delete" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>
@@ -152,18 +152,18 @@ if (!empty($dateresultsmeal)) {
 
 <?php foreach ($dateresultsmeal as $dateresult): ?>
     <tr>
-    <td><?= h($dateresult->date); ?></td>
-    <td><?= h($dateresult->food); ?></td>
-    <td><?= floatval(h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->cal) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->pro) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->fat) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->car) * h($dateresult->weight)); ?></td>
+    <td><?= Utils::h($dateresult->date); ?></td>
+    <td><?= Utils::h($dateresult->food); ?></td>
+    <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->cal) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->pro) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->fat) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>
@@ -197,17 +197,17 @@ if (!empty($dateresultstraining)) {
 
 <?php foreach ($dateresultstraining as $dateresult): ?>
     <tr>
-    <td><?= h($dateresult->date); ?></td>
-    <td><?= h($dateresult->part); ?></td>
-    <td><?= floatval(h($dateresult->type)); ?></td>
-    <td><?= floatval(h($dateresult->sets)); ?></td>
-    <td><?= floatval(h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->reps)); ?></td>
+    <td><?= Utils::h($dateresult->date); ?></td>
+    <td><?= Utils::h($dateresult->part); ?></td>
+    <td><?= floatval( Utils::h($dateresult->type)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->sets)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->reps)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>

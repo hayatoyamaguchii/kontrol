@@ -7,26 +7,10 @@ if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
-  $action = filter_input(INPUT_GET, 'action');
+$training = new Training($pdo);
+$training->processPost();
+$getrecenttrainings = $training->getRecent();
 
-  switch ($action) {
-    case 'add':
-      addTrainings($pdo);
-      break;
-    case 'delete':
-      deleteTrainings($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  header('Location: ' . SITE_URL . '/training.php');
-  exit;
-}
-
-$getrecenttrainings = getrecentTrainings($pdo);
 $searchbydatetraining = searchbyDatetraining($pdo);
 $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 $searchbytypetraining = searchbyTypetraining($pdo);
@@ -38,7 +22,7 @@ $searchbytype = filter_input(INPUT_GET, 'searchbytype');
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <form action="?action=add" method="post">
-  <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+  <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
   <ul id="form">
   <li>
     <label for="">実施した日</label>
@@ -104,17 +88,17 @@ $searchbytype = filter_input(INPUT_GET, 'searchbytype');
       </tr>
       <?php foreach ($getrecenttrainings as $getrecenttraining): ?>
       <tr>
-      <td><?= h($getrecenttraining->date); ?></td>
-      <td><?= h($getrecenttraining->part); ?></td>
-      <td><?= h($getrecenttraining->type); ?></td>
-      <td><?= h($getrecenttraining->sets); ?></td>
-      <td><?= h($getrecenttraining->weight); ?></td>
-      <td><?= h($getrecenttraining->reps); ?></td>
+      <td><?= Utils::h($getrecenttraining->date); ?></td>
+      <td><?= Utils::h($getrecenttraining->part); ?></td>
+      <td><?= Utils::h($getrecenttraining->type); ?></td>
+      <td><?= Utils::h($getrecenttraining->sets); ?></td>
+      <td><?= Utils::h($getrecenttraining->weight); ?></td>
+      <td><?= Utils::h($getrecenttraining->reps); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getrecenttraining->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getrecenttraining->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>
@@ -165,17 +149,17 @@ if (!empty($searchbydatetraining)) {
 
 <?php foreach ($searchbydatetraining as $dateresult): ?>
     <tr>
-    <td><?= h($dateresult->date); ?></td>
-    <td><?= h($dateresult->part); ?></td>
-    <td><?= floatval(h($dateresult->type)); ?></td>
-    <td><?= floatval(h($dateresult->sets)); ?></td>
-    <td><?= floatval(h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->reps)); ?></td>
+    <td><?= Utils::h($dateresult->date); ?></td>
+    <td><?= Utils::h($dateresult->part); ?></td>
+    <td><?= floatval( Utils::h($dateresult->type)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->sets)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->reps)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>

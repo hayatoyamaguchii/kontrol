@@ -8,7 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>身長</h2>
 <h2>退会する</h2>
 
-<input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+<input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 </body>

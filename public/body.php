@@ -8,7 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {  
@@ -39,7 +39,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <section id="addbodycomposition">
   <h1>体組成を登録する</h1>
   <form action="?action=add" method="post">
-    <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
     <li>
       <label for="date">計測日</label>
@@ -74,14 +74,14 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       </tr>
       <?php foreach ($getrecentbody as $getrecentbody): ?>
       <tr>
-      <td><?= floatval(h($getrecentbody->date)); ?></td>
-      <td><?= floatval(h($getrecentbody->weight)); ?></td>
-      <td><?= floatval(h($getrecentbody->bodyfat)); ?></td>
+      <td><?= floatval( Utils::h($getrecentbody->date)); ?></td>
+      <td><?= floatval( Utils::h($getrecentbody->weight)); ?></td>
+      <td><?= floatval( Utils::h($getrecentbody->bodyfat)); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getrecentbody->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getrecentbody->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>
@@ -118,14 +118,14 @@ if (!empty($dateresults)) {
 
 <?php foreach ($dateresults as $dateresult): ?>
     <tr>
-    <td><?= h($getrecentbody->date); ?></td>
-    <td><?= h($getrecentbody->weight); ?></td>
-    <td><?= h($getrecentbody->bodyfat); ?></td>
+    <td><?= Utils::h($getrecentbody->date); ?></td>
+    <td><?= Utils::h($getrecentbody->weight); ?></td>
+    <td><?= Utils::h($getrecentbody->bodyfat); ?></td>
     <td>
       <form action="?action=delete" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>

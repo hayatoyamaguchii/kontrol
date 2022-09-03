@@ -4,7 +4,7 @@ require_once(__DIR__ . '/app/config.php');
 require_once(__DIR__ . '/app/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {
@@ -41,17 +41,17 @@ $gettrainings = getTrainings($pdo);
       </tr>
       <?php foreach ($gettrainings as $gettraining): ?>
       <tr>
-      <td><?= h($gettraining->date); ?></td>
-      <td><?= h($gettraining->part); ?></td>
-      <td><?= h($gettraining->type); ?></td>
-      <td><?= h($gettraining->sets); ?></td>
-      <td><?= h($gettraining->weight); ?></td>
-      <td><?= h($gettraining->reps); ?></td>
+      <td><?= Utils::h($gettraining->date); ?></td>
+      <td><?= Utils::h($gettraining->part); ?></td>
+      <td><?= Utils::h($gettraining->type); ?></td>
+      <td><?= Utils::h($gettraining->sets); ?></td>
+      <td><?= Utils::h($gettraining->weight); ?></td>
+      <td><?= Utils::h($gettraining->reps); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($gettraining->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($gettraining->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>

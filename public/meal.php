@@ -8,7 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {  
@@ -53,7 +53,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <section id="addmealfromlist">
   <h1>食品リストから登録する</h1>
   <form action="?action=addmeal" method="post">
-    <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -64,7 +64,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       <select type="text" name="genre" id="genre" required>
         <option value="">選択してください</option>
       <?php foreach ($getgenres as $getgenre): ?>
-        <option value="<?= h($getgenre->genre); ?>"><?= h($getgenre->genre); ?></option>
+        <option value="<?= Utils::h($getgenre->genre); ?>"><?= Utils::h($getgenre->genre); ?></option>
       <?php endforeach; ?>
       </select>
     </li>
@@ -73,7 +73,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       <select type="text" name="food" id="food" required>
         <option value="">選択してください</option>
         <?php foreach ($getfoodlist as $getfood): ?>
-        <option value="<?= h($getfood->food); ?>"><?= h($getfood->food); ?></option>
+        <option value="<?= Utils::h($getfood->food); ?>"><?= Utils::h($getfood->food); ?></option>
         <?php endforeach; ?>
       </select>
     </li>
@@ -92,7 +92,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <section id="addmealwithoutlist">
   <h1>リスト外から登録する</h1>
   <form action="?action=addmealandlist" method="post">
-    <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -156,18 +156,18 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       </tr>
       <?php foreach ($getrecentmeals as $getrecentmeal): ?>
       <tr>
-      <td><?= h($getrecentmeal->date); ?></td>
-      <td><?= h($getrecentmeal->food); ?></td>
-      <td><?=floatval(h($getrecentmeal->weight)); ?></td>
-      <td><?=floatval(h($getrecentmeal->cal) * h($getrecentmeal->weight)); ?></td>
-      <td><?=floatval(h($getrecentmeal->pro) * h($getrecentmeal->weight)); ?></td>
-      <td><?=floatval(h($getrecentmeal->fat) * h($getrecentmeal->weight)); ?></td>
-      <td><?=floatval(h($getrecentmeal->car) * h($getrecentmeal->weight)); ?></td>
+      <td><?= Utils::h($getrecentmeal->date); ?></td>
+      <td><?= Utils::h($getrecentmeal->food); ?></td>
+      <td><?=floatval( Utils::h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval( Utils::h($getrecentmeal->cal) * Utils::h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval( Utils::h($getrecentmeal->pro) * Utils::h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval( Utils::h($getrecentmeal->fat) * Utils::h($getrecentmeal->weight)); ?></td>
+      <td><?=floatval( Utils::h($getrecentmeal->car) * Utils::h($getrecentmeal->weight)); ?></td>
       <td>
         <form action="?action=deletemeal" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getrecentmeal->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getrecentmeal->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>
@@ -244,18 +244,18 @@ if (!empty($dateresults)) {
 
 <?php foreach ($dateresults as $dateresult): ?>
     <tr>
-    <td><?= h($dateresult->date); ?></td>
-    <td><?= h($dateresult->food); ?></td>
-    <td><?= floatval(h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->cal) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->pro) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->fat) * h($dateresult->weight)); ?></td>
-    <td><?= floatval(h($dateresult->car) * h($dateresult->weight)); ?></td>
+    <td><?= Utils::h($dateresult->date); ?></td>
+    <td><?= Utils::h($dateresult->food); ?></td>
+    <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->cal) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->pro) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->fat) * Utils::h($dateresult->weight)); ?></td>
+    <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
-        <input type="hidden" name="id" value="<?= h($dateresult->id); ?>">
-        <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+        <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
     </td>
     </tr>
@@ -274,7 +274,7 @@ elseif (empty($dateresults)) {
 <section id="addfoodlist">
   <h1>食品リストに追加</h1>
   <form action="?action=addlist" method="post">
-    <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
     <li>
       <label for="genre">ジャンル</label>
@@ -316,7 +316,7 @@ elseif (empty($dateresults)) {
     <select type="text" name="genre" id="genre" required>
       <option value="">選択してください</option>
     <?php foreach ($getgenres as $getgenre): ?>
-      <option value="<?= h($getgenre->genre); ?>"><?= h($getgenre->genre); ?></option>
+      <option value="<?= Utils::h($getgenre->genre); ?>"><?= Utils::h($getgenre->genre); ?></option>
     <?php endforeach; ?>
     </select>
   <table border="1">
@@ -330,17 +330,17 @@ elseif (empty($dateresults)) {
     </tr>
     <?php foreach ($getfoodlist as $getfoodlist): ?>
       <tr>
-      <td><?= h($getfoodlist->genre); ?></td>
-      <td><?= h($getfoodlist->food); ?></td>
-      <td><?= floatval(h($getfoodlist->cal)); ?></td>
+      <td><?= Utils::h($getfoodlist->genre); ?></td>
+      <td><?= Utils::h($getfoodlist->food); ?></td>
+      <td><?= floatval( Utils::h($getfoodlist->cal)); ?></td>
       <td><?= floatval(($getfoodlist->pro)); ?></td>
       <td><?= floatval(($getfoodlist->fat)); ?></td>
       <td><?= floatval(($getfoodlist->car)); ?></td>
       <td>
         <form action="?action=deletelist" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($getfoodlist->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getfoodlist->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>
       </tr>
