@@ -1,25 +1,14 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  Token::validate();
-  $action = filter_input(INPUT_GET, 'action');
-
-  switch ($action) {
-    case 'delete':
-      deletetraining($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  header('Location: ' . SITE_URL . '/alltraining.php');
-  exit;
+if (!isset($_SESSION['mail'])) {
+  header('Location: ' . SITE_URL . '/login.php');
 }
 
-$gettrainings = getTrainings($pdo);
+$training = new Training($pdo);
+$training->processPost();
+$getalltrainings = $training->getAll();
 
 ?>
 
@@ -39,18 +28,18 @@ $gettrainings = getTrainings($pdo);
         <th>脂質(g)</th>
         <th>炭水化物(g)</th>
       </tr>
-      <?php foreach ($gettrainings as $gettraining): ?>
+      <?php foreach ($getalltrainings as $getalltraining): ?>
       <tr>
-      <td><?= Utils::h($gettraining->date); ?></td>
-      <td><?= Utils::h($gettraining->part); ?></td>
-      <td><?= Utils::h($gettraining->type); ?></td>
-      <td><?= Utils::h($gettraining->sets); ?></td>
-      <td><?= Utils::h($gettraining->weight); ?></td>
-      <td><?= Utils::h($gettraining->reps); ?></td>
+      <td><?= Utils::h($getalltraining->date); ?></td>
+      <td><?= Utils::h($getalltraining->part); ?></td>
+      <td><?= Utils::h($getalltraining->type); ?></td>
+      <td><?= Utils::h($getalltraining->sets); ?></td>
+      <td><?= Utils::h($getalltraining->weight); ?></td>
+      <td><?= Utils::h($getalltraining->reps); ?></td>
       <td>
         <form action="?action=delete" method="post">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= Utils::h($gettraining->id); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($getalltraining->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </td>

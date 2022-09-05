@@ -1,34 +1,15 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
 if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  Token::validate();
-  $action = filter_input(INPUT_GET, 'action');
-
-  switch ($action) {  
-    case 'add':
-      addBodycom($pdo);
-      break;
-    case 'delete':
-      deleteBodycom($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  header('Location: ' . SITE_URL . '/body.php');
-  exit;
-}
-
-$getmeals = getBodycom($pdo);
-$getrecentbody = getrecentBodycom($pdo);
-$dateresults = searchbyDatebodycom($pdo);
+$body = new Body($pdo);
+$body->processPost();
+$getrecentbody = $body->getRecent();
+$dateresults = $body->searchbyDate();
 $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 
 ?>

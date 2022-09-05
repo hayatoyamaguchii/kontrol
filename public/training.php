@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
 if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');
@@ -10,11 +9,11 @@ if (!isset($_SESSION['mail'])) {
 $training = new Training($pdo);
 $training->processPost();
 $getrecenttrainings = $training->getRecent();
+$searchbydate = $training->getByDate();
+$searchbytype = $training->getByType();
 
-$searchbydatetraining = searchbyDatetraining($pdo);
-$searchbydate = filter_input(INPUT_GET, 'searchbydate');
-$searchbytypetraining = searchbyTypetraining($pdo);
-$searchbytype = filter_input(INPUT_GET, 'searchbytype');
+$date = filter_input(INPUT_GET, 'searchbydate');
+$type = filter_input(INPUT_GET, 'searchbytype');
 
 ?>
 
@@ -133,28 +132,27 @@ $searchbytype = filter_input(INPUT_GET, 'searchbytype');
 </form>
 
 <?php 
-if (!empty($searchbydatetraining)) {
+if (!empty($searchbydate)) {
   echo '<ul>
   <li>
   <table border="1">
     <tr>
+    <th>実施日</th>
     <th>部位</th>
     <th>種目</th>
     <th>セット数</th>
     <th>重量</th>
     <th>レップ数</th>
     </tr>';
-  }  
-?>
-
-<?php foreach ($searchbydatetraining as $dateresult): ?>
+  }
+  foreach ($searchbydate as $dateresult): ?>
     <tr>
     <td><?= Utils::h($dateresult->date); ?></td>
     <td><?= Utils::h($dateresult->part); ?></td>
-    <td><?= floatval( Utils::h($dateresult->type)); ?></td>
-    <td><?= floatval( Utils::h($dateresult->sets)); ?></td>
-    <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
-    <td><?= floatval( Utils::h($dateresult->reps)); ?></td>
+    <td><?= Utils::h($dateresult->type); ?></td>
+    <td><?= Utils::h($dateresult->sets); ?></td>
+    <td><?= Utils::h($dateresult->weight); ?></td>
+    <td><?= Utils::h($dateresult->reps); ?></td>
     <td>
       <form action="?action=deletemeal" method="post">
         <span class="delete">x</span>
@@ -167,11 +165,50 @@ if (!empty($searchbydatetraining)) {
   </table>
   </li>
 </ul>
+
 <?php 
-if (empty($searchbydate)) {
+if (!empty($searchbytype)) {
+  echo '<ul>
+  <li>
+  <table border="1">
+    <tr>
+    <th>実施日</th>
+    <th>部位</th>
+    <th>種目</th>
+    <th>セット数</th>
+    <th>重量</th>
+    <th>レップ数</th>
+    </tr>';
   }
-elseif (empty($dateresults)) {
-  echo '<p>'. $searchbydate . 'に該当するデータがありません。</p>';
+foreach ($searchbytype as $typeresult): ?>
+    <tr>
+    <td><?= Utils::h($typeresult->date); ?></td>
+    <td><?= Utils::h($typeresult->part); ?></td>
+    <td><?= Utils::h($typeresult->type); ?></td>
+    <td><?= Utils::h($typeresult->sets); ?></td>
+    <td><?= Utils::h($typeresult->weight); ?></td>
+    <td><?= Utils::h($typeresult->reps); ?></td>
+    <td>
+      <form action="?action=deletemeal" method="post">
+        <span class="delete">x</span>
+        <input type="hidden" name="id" value="<?= Utils::h($typeresult->id); ?>">
+        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+      </form>
+    </td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+  </li>
+</ul>
+
+<?php 
+if (empty($dateresult) && isset($_GET['searchbydate'])) {
+  echo '<p>'. $date . 'に該当するデータがありません。</p>';
+  }
+?>
+<?php 
+if (empty($typeresult) && isset($_GET['searchbytype'])) {
+  echo '<p>'. $type . 'に該当するデータがありません。</p>';
   }
 ?>
 

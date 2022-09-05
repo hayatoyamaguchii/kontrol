@@ -74,7 +74,7 @@ class Training
   }
 }
 
-public function delete()
+  private function delete()
 {
   $id = filter_input(INPUT_POST, 'id');
   if (empty($id)) {
@@ -88,7 +88,7 @@ public function delete()
 
   public function getAll()
   {
-    $stmt = $this->pdo->query("SELECT * FROM todos ORDER BY id DESC");
+    $stmt = $this->pdo->query("SELECT * FROM trainings ORDER BY date DESC");
     $getall = $stmt->fetchAll();
     return $getall;
   }
@@ -98,6 +98,26 @@ public function delete()
     $stmt = $this->pdo->query("SELECT * FROM trainings ORDER BY date DESC LIMIT 5");
     $getrecent = $stmt->fetchAll();
     return $getrecent;
+  }
+
+  public function getByDate()
+  {
+    $date = filter_input(INPUT_GET, 'searchbydate');
+
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $date . "', '%Y-%m-%d');");
+  
+    $searchbydate = $stmt->fetchAll();
+    return $searchbydate;
+  }
+
+  public function getByType()
+  {
+    $type = filter_input(INPUT_GET, 'searchbytype');
+
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE type = '" . $type . "';");
+  
+    $searchbytype = $stmt->fetchAll();
+    return $searchbytype;
   }
 
 }

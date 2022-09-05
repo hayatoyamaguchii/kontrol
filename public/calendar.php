@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
 if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');

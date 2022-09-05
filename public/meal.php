@@ -1,47 +1,19 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
 if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  Token::validate();
-  $action = filter_input(INPUT_GET, 'action');
-
-  switch ($action) {  
-    case 'addmeal':
-      addMeal($pdo);
-      break;
-    case 'deletemeal':
-      deleteMeal($pdo);
-      break;
-    case 'addlist':
-      addFoodlist($pdo);
-      break;
-    case 'deletelist':
-      deleteFoodlist($pdo);
-      break;
-    case 'addmealandlist';
-      addFoodlist($pdo);
-      addMeal($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  header('Location: ' . SITE_URL . '/meal.php');
-  exit;
-}
-
-$getgenres = getGenres($pdo);
-$getmeals = getMeals($pdo);
-$getrecentmeals = getrecentMeals($pdo);
-$getfoodlist = getFoodlist($pdo);
-$dateresults = searchbyDatemeal($pdo);
-$searchbydate = filter_input(INPUT_GET, 'searchbydate');
+$meal = new Meal($pdo);
+$meal->processPost();
+$getrecenttrainings = $meal->getRecent();
+$getgenres = $meal->getGenres();
+$getrecentmeals = $meal->getRecent();
+$getfoodlist = $meal->getFoodlist();
+$dateresults = $meal->searchbyDate();
+$date = filter_input(INPUT_GET, 'searchbydate');
 
 ?>
 
@@ -264,10 +236,10 @@ if (!empty($dateresults)) {
   </li>
 </ul>
 <?php 
-if (empty($searchbydate)) {
+if (empty($date)) {
   }
 elseif (empty($dateresults)) {
-  echo '<p>'. $searchbydate . 'に該当するデータがありません。</p>';
+  echo '<p>'. $date . 'に該当するデータがありません。</p>';
   }
 ?>
 

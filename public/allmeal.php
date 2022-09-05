@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__ . '/app/config.php');
-require_once(__DIR__ . '/app/functions.php');
 
 if (!isset($_SESSION['mail'])) {
   header('Location: ' . SITE_URL . '/login.php');
@@ -22,8 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Location: ' . SITE_URL . '/allmeal.php');
   exit;
 }
-
-$getmeals = getMeals($pdo);
+$meal = new Meal($pdo);
+$meal->processPost();
+$getmeals = $meal->getAll();
 
 ?>
 
