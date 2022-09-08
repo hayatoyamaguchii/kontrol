@@ -16,7 +16,7 @@ $getbody = $body->getAll();
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <section id="bodylist">
-  <h1>最近の記録</h1>
+  <h1>全ての記録</h1>
   <ul>
     <li>
     <table border="1">

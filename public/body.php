@@ -17,7 +17,10 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<section id="addbodycomposition">
+<div class="open open1">体組成を登録する</div>
+<div class="mask hidden"></div>
+
+<section class="modal hidden">
   <h1>体組成を登録する</h1>
   <form action="?action=add" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -39,7 +42,9 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
     </li>
     </ul>
   </form>
+  <div class="close close1">閉じる</div>
 </section>
+
 
 <a href="/allbody.php">全ての記録</a>
 

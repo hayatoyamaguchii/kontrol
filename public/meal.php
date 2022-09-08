@@ -22,7 +22,11 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 
 <article id="addmealarticle">
 <!-- 食品リストから登録する機能 -->
-<section id="addmealfromlist">
+
+<div class="open open1">食品リストから登録する</div>
+<div class="mask hidden"></div>
+
+<section class="modal modal1 hidden">
   <h1>食品リストから登録する</h1>
   <form action="?action=addmeal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -58,10 +62,13 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </li>
     </ul>
   </form>
+  <div class="close close1">閉じる</div>
 </section>
 
+<div class="open open2">リスト外から登録する</div>
+<div class="mask hidden"></div>
 <!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
-<section id="addmealwithoutlist">
+<section class="modal modal2 hidden">
   <h1>リスト外から登録する</h1>
   <form action="?action=addmealandlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -107,6 +114,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </li>
     </ul>
   </form>
+  <div class="close close2">閉じる</div>
 </section>
 </article>
 
@@ -243,45 +251,6 @@ elseif (empty($dateresults)) {
   }
 ?>
 
-<section id="addfoodlist">
-  <h1>食品リストに追加</h1>
-  <form action="?action=addlist" method="post">
-    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
-    <ul id="form">
-    <li>
-      <label for="genre">ジャンル</label>
-      <input type="text" name="genre" id="genre" required>
-    </li>
-    <li>
-      <label for="food">食品名</label>
-      <input type="text" name="food" id="food" required>
-    </li>
-    <li>
-      <label for="cal">カロリー</label>
-      <input type="number" name="cal" id="cal" required>kcal</li>
-    <li>
-    <li>
-      <label for="pro">たんぱく質量</label>
-      <input type="number" name="pro" id="pro" required>g
-    </li>
-    <li>
-      <label for="fat">脂質量</label>
-      <input type="number" name="fat" id="fat" required>g
-    </li>
-    <li>
-      <label for="car">炭水化物量</label>
-      <input type="number" name="car" id="car" required>g
-    <li>
-    <li>
-      <label for="weight">量</label>
-      <input type="number" name="weight" id="weight" required>(g / 個)
-    </li>
-      <button type="submit">リストに登録</button>
-    </li>
-    </ul>
-  </form>
-</section>
-
 <section id="foodlist">
   <h1>マイ食品リスト</h1>
     <label for="genre">ジャンル</label>
@@ -318,6 +287,49 @@ elseif (empty($dateresults)) {
       </tr>
       <?php endforeach; ?>
   </table>
+</section>
+
+<div class="open open3">食品を追加</div>
+<div class="mask hidden"></div>
+
+<section class="modal modal3 hidden">
+  <h1>食品を追加</h1>
+  <form action="?action=addlist" method="post">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <ul id="form">
+    <li>
+      <label for="genre">ジャンル</label>
+      <input type="text" name="genre" id="genre" required>
+    </li>
+    <li>
+      <label for="food">食品名</label>
+      <input type="text" name="food" id="food" required>
+    </li>
+    <li>
+      <label for="cal">カロリー</label>
+      <input type="number" name="cal" id="cal" required>kcal</li>
+    <li>
+    <li>
+      <label for="pro">たんぱく質量</label>
+      <input type="number" name="pro" id="pro" required>g
+    </li>
+    <li>
+      <label for="fat">脂質量</label>
+      <input type="number" name="fat" id="fat" required>g
+    </li>
+    <li>
+      <label for="car">炭水化物量</label>
+      <input type="number" name="car" id="car" required>g
+    <li>
+    <li>
+      <label for="weight">量</label>
+      <input type="number" name="weight" id="weight" required>(g / 個)
+    </li>
+      <button type="submit">リストに登録</button>
+    </li>
+    </ul>
+  </form>
+  <div class="close close3">閉じる</div>
 </section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>

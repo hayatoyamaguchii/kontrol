@@ -20,6 +20,12 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
+
+<div class="open open1">トレーニング記録を登録する</div>
+<div class="mask hidden"></div>
+
+<section class="modal modal1 hidden">
+<h1>トレーニング記録を登録する</h1>
 <form action="?action=add" method="post">
   <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
   <ul id="form">
@@ -69,6 +75,8 @@ $type = filter_input(INPUT_GET, 'searchbytype');
     <button type="submit">送信</button>
   </li>
 </form>
+<div class="close1 close">閉じる</div>
+</section>
 
 <a href="/alltraining.php">全ての記録</a>
 
