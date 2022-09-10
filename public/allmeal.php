@@ -53,7 +53,7 @@ $getmeals = $meal->getAll();
       <td><?= Utils::h($getmeal->fat) * Utils::h($getmeal->weight); ?></td>
       <td><?= Utils::h($getmeal->car) * Utils::h($getmeal->weight); ?></td>
       <td>
-        <form action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getmeal->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -64,9 +64,8 @@ $getmeals = $meal->getAll();
     </table>
     </li>
   </ul>
+<a href="/meal.php" class="orange">戻る</a>
 </section>
-
-<a href="/meal.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/js/meal.js"></script>

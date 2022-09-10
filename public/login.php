@@ -36,7 +36,7 @@ if (isset($_SESSION['mail'])) {
 
 <?php elseif ($_GET['state'] === 'error'): ?>
 <p>メールアドレスもしくはパスワードが間違っています。</p>
-<p><a href="<?=SITE_URL . "/login.php"?>">戻る</a></p>
+<p><a href="<?=SITE_URL . "/login.php"?>" class="orange">戻る</a></p>
 <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>
 
 

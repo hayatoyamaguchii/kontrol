@@ -115,7 +115,7 @@ if (!empty($dateresultsbody)) {
     <td><?= Utils::h($dateresult->weight); ?></td>
     <td><?= Utils::h($dateresult->bodyfat); ?></td>
     <td>
-      <form action="?action=delete" method="post">
+      <form class="deleteform" action="?action=delete" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -162,7 +162,7 @@ if (!empty($dateresultsmeal)) {
     <td><?= floatval( Utils::h($dateresult->fat) * Utils::h($dateresult->weight)); ?></td>
     <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
-      <form action="?action=deletemeal" method="post">
+      <form class="deleteform" action="?action=deletemeal" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -206,7 +206,7 @@ if (!empty($dateresultstraining)) {
     <td><?= floatval( Utils::h($dateresult->weight)); ?></td>
     <td><?= floatval( Utils::h($dateresult->reps)); ?></td>
     <td>
-      <form action="?action=deletemeal" method="post">
+      <form class="deleteform" action="?action=deletemeal" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">

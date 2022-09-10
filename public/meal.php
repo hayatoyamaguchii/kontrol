@@ -21,12 +21,16 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <section id="addmealarticle">
-<!-- 食品リストから登録する機能 -->
-
 <div class="open open1">食品リストから登録する</div>
 <div class="mask hidden"></div>
+<div class="open open2">リスト外から登録する</div>
+<div class="mask hidden"></div>
 
-<section class="modal modal1 hidden">
+</section>
+
+<!-- 食品リストから登録する機能 -->
+<div class="modal modal1 hidden">
+<section>
   <h2>食品リストから登録する</h2>
   <form action="?action=addmeal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -63,12 +67,11 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </ul>
   </form>
   <div class="close close1">閉じる</div>
+</div>
 </section>
-
-<div class="open open2">リスト外から登録する</div>
-<div class="mask hidden"></div>
 <!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
-<section class="modal modal2 hidden">
+<div class="modal modal2 hidden">
+<section>
   <h2>リスト外から登録する</h2>
   <form action="?action=addmealandlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -116,13 +119,13 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   </form>
   <div class="close close2">閉じる</div>
 </section>
-</section>
+</div>
 
 <section id="recentmeallist">
   <h2>最近の記録</h2>
   <ul>
     <li>
-    <table>
+    <table class="recentmeallist">
       <tr>
         <th>食事した日</th>
         <th>食べた物</th>
@@ -142,7 +145,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
       <td><?=floatval( Utils::h($getrecentmeal->fat) * Utils::h($getrecentmeal->weight)); ?></td>
       <td><?=floatval( Utils::h($getrecentmeal->car) * Utils::h($getrecentmeal->weight)); ?></td>
       <td>
-        <form action="?action=deletemeal" method="post">
+        <form class="deleteform" action="?action=deletemeal" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecentmeal->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -153,12 +156,12 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </table>
     </li>
   </ul>
-  <a href="/allmeal.php">全ての記録</a>
+  <a href="/allmeal.php" class="orange">全ての記録</a>
 </section>
 
 <section id="recent7days">
   <h2>直近7日間の平均</h2>
-  <table>
+  <table class="recent7days">
     <tr>
       <th></th>
       <th>目標</th>
@@ -232,7 +235,7 @@ if (!empty($dateresults)) {
     <td><?= floatval( Utils::h($dateresult->fat) * Utils::h($dateresult->weight)); ?></td>
     <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
-      <form action="?action=deletemeal" method="post">
+      <form class="deleteform" action="?action=deletemeal" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -261,7 +264,7 @@ elseif (empty($dateresults)) {
       <option value="<?= Utils::h($getgenre->genre); ?>"><?= Utils::h($getgenre->genre); ?></option>
     <?php endforeach; ?>
     </select>
-  <table>
+  <table class="foodlist">
     <tr>
       <th>ジャンル</th>
       <th>食品名</th>
@@ -269,18 +272,19 @@ elseif (empty($dateresults)) {
       <th>たんぱく質</th>
       <th>脂質</th>
       <th>炭水化物</th>
+      <th></th>
     </tr>
     <?php foreach ($getfoodlist as $getfoodlist): ?>
       <tr>
       <td><?= Utils::h($getfoodlist->genre); ?></td>
       <td><?= Utils::h($getfoodlist->food); ?></td>
-      <td><?= floatval( Utils::h($getfoodlist->cal)); ?></td>
-      <td><?= floatval(($getfoodlist->pro)); ?></td>
-      <td><?= floatval(($getfoodlist->fat)); ?></td>
-      <td><?= floatval(($getfoodlist->car)); ?></td>
-      <td>
-        <form action="?action=deletelist" method="post">
-          <span class="delete">x</span>
+      <td><span class="unit-kcal"><?= floatval( Utils::h($getfoodlist->cal)); ?></span></td>
+      <td><span class="unit-g"><?= floatval(($getfoodlist->pro)); ?></span></td>
+      <td><span class="unit-g"><?= floatval(($getfoodlist->fat)); ?></span></td>
+      <td><span class="unit-g"><?= floatval(($getfoodlist->car)); ?></span></td>
+      <td class="deletetd">
+        <form class="deleteform" action="?action=deletelist" method="post">
+          <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($getfoodlist->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
@@ -293,7 +297,8 @@ elseif (empty($dateresults)) {
 <div class="mask hidden"></div>
 </seciton>
 
-<section class="modal modal3 hidden">
+<div class="modal modal3 hidden">
+<section>
   <h2>食品を追加</h2>
   <form action="?action=addlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -332,6 +337,7 @@ elseif (empty($dateresults)) {
   </form>
   <div class="close close3">閉じる</div>
 </section>
+</div>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/js/meal.js"></script>

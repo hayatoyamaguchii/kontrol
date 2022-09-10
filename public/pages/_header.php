@@ -18,7 +18,7 @@
   <title>Kontrol</title>
 </head>
 <header class="title-header">
-  <h1><a href="/home.php"><span class="icon-color">K</span>ontrol</a></h1>
+  <h1><a href="/home.php"><span class="orange">K</span>ontrol</a></h1>
   <div class="title-header-item"><span class="material-symbols-outlined title-header-icon">account_circle</span><div class ="title-header-text"><?php if(isset($_SESSION['mail'])) { echo ($_SESSION['mail']); }?></div>
         <ul class="title-header-submenu title-header-submenu1 hidden">
           <li class="title-header-submenu-item"><a href="/account.php" class="subitemhref">アカウント設定</a></li>

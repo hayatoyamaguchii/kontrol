@@ -31,7 +31,7 @@ $getbody = $body->getAll();
       <td><?= Utils::h($getbody->weight); ?></td>
       <td><?= Utils::h($getbody->bodyfat); ?></td>
       <td>
-        <form action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getbody->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -42,9 +42,8 @@ $getbody = $body->getAll();
     </table>
     </li>
   </ul>
+<a href="/body.php" class="orange">戻る</a>
 </section>
-
-<a href="/body.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 </body>

@@ -22,7 +22,8 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <div class="mask hidden"></div>
 </section>
 
-<section class="modal hidden">
+<div class="modal modal1 hidden">
+<section>
   <h2>体組成を登録する</h2>
   <form action="?action=add" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -46,6 +47,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
   </form>
   <div class="close close1">閉じる</div>
 </section>
+</div>
 
 <section id="recentbodylist">
   <h2>最近の記録</h2>
@@ -63,7 +65,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
       <td><?= floatval( Utils::h($getrecentbody->weight)); ?></td>
       <td><?= floatval( Utils::h($getrecentbody->bodyfat)); ?></td>
       <td>
-        <form action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecentbody->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -74,7 +76,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
     </table>
     </li>
   </ul>
-  <a href="/allbody.php">全ての記録</a>
+  <a href="/allbody.php" class="orange">全ての記録</a>
 </section>
 
 <section>
@@ -109,7 +111,7 @@ if (!empty($dateresults)) {
     <td><?= Utils::h($getrecentbody->weight); ?></td>
     <td><?= Utils::h($getrecentbody->bodyfat); ?></td>
     <td>
-      <form action="?action=delete" method="post">
+      <form class="deleteform" action="?action=delete" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">

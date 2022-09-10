@@ -37,7 +37,7 @@ $getalltrainings = $training->getAll();
       <td><?= Utils::h($getalltraining->weight); ?></td>
       <td><?= Utils::h($getalltraining->reps); ?></td>
       <td>
-        <form action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getalltraining->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -48,9 +48,9 @@ $getalltrainings = $training->getAll();
     </table>
     </li>
   </ul>
+<a href="/training.php" class="orange">戻る</a>
 </section>
 
-<a href="/training.php">戻る</a>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/js/training.js"></script>

@@ -17,17 +17,18 @@ html {
 
 body {
   margin: 0;
+  color: #333;
 }
 
 main {
   margin-left: var(--headerwidth);
-  padding: 3rem 0 0 1rem;
+  padding: 3rem 0 0 0;
   background-color: #F5F5F4;
 }
 
 section {
   padding: 1rem;
-  margin: 2rem 1rem 0;
+  margin: 2rem 1rem 2rem;
   background-color: #fff;
   box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
 }
@@ -65,8 +66,8 @@ ul, ol {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: inherit;
   transition: .1s ease-in-out;
 }
 
@@ -80,12 +81,60 @@ a:visited {
   }
 }
 
+th,td {
+  border-bottom: solid 1px;              /* 枠線指定 */
+  font-size: 1rem;
+  padding: .25rem;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.delete {
+  padding: 5px;
+  border: solid 1px #75818D;
+  border-radius: 5px;
+}
+
+.delete:hover {
+  cursor: pointer;
+}
+
+/* .foodlist tr td:nth-of-type(2){
+  border-right: solid 1px;
+} */
+
+th {
+  background-color: #f1592224;
+}
+
+td {
+  background-color: #fff;
+}
+
+table {
+  border-collapse:  collapse;
+  width: 100%;
+  border: solid 1px;
+}
+
+.unit-g::after {
+  content: "g";
+}
+
+.unit-kcal::after {
+  content: "kcal";
+}
+
 /* 
 header
 */
 
-.icon-color {
-  color: var(--accent-color);
+.orange {
+  color: var(--accent-color) !important;
+}
+
+.orange:hover {
+  color: #CE400D !important;
 }
 
 .title-header {
@@ -120,7 +169,7 @@ header
 .showtitleheadersubmenu {
   width: 100%;
   font-size: 1rem;
-  background-color: #070707;
+  background-color: #070707e8;
   color: #75818D;
   width: var(--headerwidth);
   height: var(--headerwidth);
@@ -347,12 +396,6 @@ meal
   display: flex;
 }
 
-.open {
-  background-color: #F15A22;
-  color: #F5F5F4;
-}
-
-
 .open, .close {
   cursor: pointer;
   width: 15rem;
@@ -366,9 +409,31 @@ meal
   box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
 }
 
+.open {
+  background-color: var(--accent-color);
+  color: #F5F5F4;
+  transition: .1s  ease-in-out;
+}
+
+.open:hover {
+  transform: translate3d(0, 2px, 0);
+  background-color: #CE400D;
+  box-shadow: none;
+}
+
+.close {
+  transition: .1s;
+}
+
+.close:hover {
+  transform: translate3d(0, 2px, 0);
+  background-color: #F5F5F4;
+  box-shadow: none;
+}
+
 .modal {
-  background: #fff;
-  width: 300px;
+  background: #F5F5F4;
+  width: 50%;
   padding: 20px;
   border-radius: 4px;
   position: absolute;

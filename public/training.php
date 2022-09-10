@@ -25,59 +25,61 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 <div class="mask hidden"></div>
 </section>
 
-<section class="modal modal1 hidden">
-<h2>トレーニング記録を登録する</h2>
-<form action="?action=add" method="post">
-  <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
-  <ul id="form">
-  <li>
-    <label for="">実施した日</label>
-    
-    <input type="date" name="date" id="date" required>
-  </li>
-  <li>
-    <label for="part">部位</label>
-    <select type="text" name="part" id="part" required>
-      <option value="chest">胸</option>
-      <option value="back">背中</option>
-      <option value="shoulder">肩</option>
-      <option value="arm">腕</option>
-      <option value="legs">脚</option>
-      <option value="abs">腹</option>
-      <option value="cardio">有酸素</option>
-      <option value="other">その他</option>
-    </select>
-  </li>
-  <li>
-    <label for="type">種目</label>
-    <input type="text" name="type" id="type" required>
-  </li>
-  <li>
-    <label for="sets">セット数</label>
-    <input type="number" name="sets" id="sets">sets
-  </li>
-  <li>
-    <label for="weight">重量(1セット目)</label>
-    <input type="number" step="0.25" name="weight0" id="weight" required>kg
-  </li>
-  <li>
-    <label for="reps">レップ数(1セット目)</label>
-    <input type="number" name="reps0" id="reps" required>reps
-  </li>
-  <li>
-    <ul id="addparent">
+<div class="modal modal1 hidden">
+<section>
+  <h2>トレーニング記録を登録する</h2>
+  <form action="?action=add" method="post">
+    <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <ul id="form">
+    <li>
+      <label for="">実施した日</label>
+      
+      <input type="date" name="date" id="date" required>
+    </li>
+    <li>
+      <label for="part">部位</label>
+      <select type="text" name="part" id="part" required>
+        <option value="chest">胸</option>
+        <option value="back">背中</option>
+        <option value="shoulder">肩</option>
+        <option value="arm">腕</option>
+        <option value="legs">脚</option>
+        <option value="abs">腹</option>
+        <option value="cardio">有酸素</option>
+        <option value="other">その他</option>
+      </select>
+    </li>
+    <li>
+      <label for="type">種目</label>
+      <input type="text" name="type" id="type" required>
+    </li>
+    <li>
+      <label for="sets">セット数</label>
+      <input type="number" name="sets" id="sets">sets
+    </li>
+    <li>
+      <label for="weight">重量(1セット目)</label>
+      <input type="number" step="0.25" name="weight0" id="weight" required>kg
+    </li>
+    <li>
+      <label for="reps">レップ数(1セット目)</label>
+      <input type="number" name="reps0" id="reps" required>reps
+    </li>
+    <li>
+      <ul id="addparent">
+      </ul>
+    </li>
+    <li>
+      <button type="button" id="addsets">セットを追加</button>
+      <button type="button" id="deletesets">セットを削除</button>
     </ul>
-  </li>
-  <li>
-    <button type="button" id="addsets">セットを追加</button>
-    <button type="button" id="deletesets">セットを削除</button>
-  </ul>
-  <li>
-    <button type="submit">送信</button>
-  </li>
-</form>
-<div class="close1 close">閉じる</div>
+    <li>
+      <button type="submit">送信</button>
+    </li>
+  </form>
+  <div class="close1 close">閉じる</div>
 </section>
+</div>
 
 <section id="recenttrainings">
   <h2>最近の記録</h2>
@@ -101,7 +103,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
       <td><?= Utils::h($getrecenttraining->weight); ?></td>
       <td><?= Utils::h($getrecenttraining->reps); ?></td>
       <td>
-        <form action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete" method="post">
           <span class="delete">x</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecenttraining->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -112,7 +114,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
     </table>
     </li>
   </ul>
-  <a href="/alltraining.php">全ての記録</a>
+  <a href="/alltraining.php" class="orange">全ての記録</a>
 </section>
 
 <section>
@@ -163,7 +165,7 @@ if (!empty($searchbydate)) {
     <td><?= Utils::h($dateresult->weight); ?></td>
     <td><?= Utils::h($dateresult->reps); ?></td>
     <td>
-      <form action="?action=deletemeal" method="post">
+      <form class="deleteform" action="?action=deletemeal" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -198,7 +200,7 @@ foreach ($searchbytype as $typeresult): ?>
     <td><?= Utils::h($typeresult->weight); ?></td>
     <td><?= Utils::h($typeresult->reps); ?></td>
     <td>
-      <form action="?action=deletemeal" method="post">
+      <form class="deleteform" action="?action=deletemeal" method="post">
         <span class="delete">x</span>
         <input type="hidden" name="id" value="<?= Utils::h($typeresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
