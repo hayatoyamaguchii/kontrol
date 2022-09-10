@@ -20,6 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+if (isset($_SESSION['mail'])) {
+  header('Location: ' . SITE_URL . '/home.php');
+}
+
 ?>
 
 <body>

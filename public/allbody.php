@@ -16,10 +16,10 @@ $getbody = $body->getAll();
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <section id="bodylist">
-  <h1>全ての記録</h1>
+  <h2>全ての記録</h2>
   <ul>
     <li>
-    <table border="1">
+    <table>
       <tr>
         <th>計測日</th>
         <th>体重</th>

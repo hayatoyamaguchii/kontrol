@@ -15,10 +15,10 @@ $getalltrainings = $training->getAll();
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 <section id="traininglist">
-  <h1>全ての記録</h1>
+  <h2>全ての記録</h2>
   <ul>
     <li>
-    <table border="1">
+    <table>
       <tr>
         <th>食事した日</th>
         <th>食べた物</th>

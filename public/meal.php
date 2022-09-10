@@ -20,14 +20,14 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<article id="addmealarticle">
+<section id="addmealarticle">
 <!-- 食品リストから登録する機能 -->
 
 <div class="open open1">食品リストから登録する</div>
 <div class="mask hidden"></div>
 
 <section class="modal modal1 hidden">
-  <h1>食品リストから登録する</h1>
+  <h2>食品リストから登録する</h2>
   <form action="?action=addmeal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
@@ -69,7 +69,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 <div class="mask hidden"></div>
 <!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
 <section class="modal modal2 hidden">
-  <h1>リスト外から登録する</h1>
+  <h2>リスト外から登録する</h2>
   <form action="?action=addmealandlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
@@ -116,15 +116,13 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   </form>
   <div class="close close2">閉じる</div>
 </section>
-</article>
-
-<a href="/allmeal.php">全ての記録</a>
+</section>
 
 <section id="recentmeallist">
-  <h1>最近の記録</h1>
+  <h2>最近の記録</h2>
   <ul>
     <li>
-    <table border="1">
+    <table>
       <tr>
         <th>食事した日</th>
         <th>食べた物</th>
@@ -155,11 +153,12 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </table>
     </li>
   </ul>
+  <a href="/allmeal.php">全ての記録</a>
 </section>
 
 <section id="recent7days">
-  <h1>直近7日間の平均</h1>
-  <table border="1">
+  <h2>直近7日間の平均</h2>
+  <table>
     <tr>
       <th></th>
       <th>目標</th>
@@ -193,6 +192,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   </table>
 </section>
 
+<section>
 <form action="?action=searchbydate" method="get">
   <ul>
   <li>
@@ -209,7 +209,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 if (!empty($dateresults)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>食事した日</th>
     <th>食べた物</th>
@@ -250,9 +250,10 @@ elseif (empty($dateresults)) {
   echo '<p>'. $date . 'に該当するデータがありません。</p>';
   }
 ?>
+</section>
 
 <section id="foodlist">
-  <h1>マイ食品リスト</h1>
+  <h2>マイ食品リスト</h2>
     <label for="genre">ジャンル</label>
     <select type="text" name="genre" id="genre" required>
       <option value="">選択してください</option>
@@ -260,7 +261,7 @@ elseif (empty($dateresults)) {
       <option value="<?= Utils::h($getgenre->genre); ?>"><?= Utils::h($getgenre->genre); ?></option>
     <?php endforeach; ?>
     </select>
-  <table border="1">
+  <table>
     <tr>
       <th>ジャンル</th>
       <th>食品名</th>
@@ -287,13 +288,13 @@ elseif (empty($dateresults)) {
       </tr>
       <?php endforeach; ?>
   </table>
-</section>
 
 <div class="open open3">食品を追加</div>
 <div class="mask hidden"></div>
+</seciton>
 
 <section class="modal modal3 hidden">
-  <h1>食品を追加</h1>
+  <h2>食品を追加</h2>
   <form action="?action=addlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">

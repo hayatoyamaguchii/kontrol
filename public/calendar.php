@@ -53,38 +53,41 @@ for($i=0;$i<$row;$i++){
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-    <h1><?=$year?>年<?=$month?>月のカレンダー</h1>
-    <p>
-      <a href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>
-      <a href="?year=<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>">翌月</a>
+<section>
+  <h2><?=$year?>年<?=$month?>月のカレンダー</h2>
+  <p>
+    <a href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>
+    <a href="?year=<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>">翌月</a>
 
-    </p>
-    <table border="1">
-      <tr>
-        <th>日</th>
-        <th>月</th>
-        <th>火</th>
-        <th>水</th>
-        <th>木</th>
-        <th>金</th>
-        <th>土</th>
-      </tr>
-      <?php foreach($calendar as $tr): ?>
-      <tr>
-        <?php foreach($tr as $td):?>
-          <?php if(substr($td,0,1)==="*"): ?>
-            <td class="today"><a href="?year=<?=$year?>&month=<?=$month ?>&date=<?=substr($td,1)?>"><?=substr($td,1)?></a></td>
-          <?php else: ?>
-            <td><a href="?year=<?=$year?>&month=<?=$month?>&date=<?=$td?>"><?=$td?></a></td>
-          <?php endif;?>
-        <?php endforeach;?>
-      </tr>
+  </p>
+  <table>
+    <tr>
+      <th>日</th>
+      <th>月</th>
+      <th>火</th>
+      <th>水</th>
+      <th>木</th>
+      <th>金</th>
+      <th>土</th>
+    </tr>
+    <?php foreach($calendar as $tr): ?>
+    <tr>
+      <?php foreach($tr as $td):?>
+        <?php if(substr($td,0,1)==="*"): ?>
+          <td class="today"><a href="?year=<?=$year?>&month=<?=$month ?>&date=<?=substr($td,1)?>"><?=substr($td,1)?></a></td>
+        <?php else: ?>
+          <td><a href="?year=<?=$year?>&month=<?=$month?>&date=<?=$td?>"><?=$td?></a></td>
+        <?php endif;?>
       <?php endforeach;?>
-    </table>
+    </tr>
+    <?php endforeach;?>
+  </table>
 
-    <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date-1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date-1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
+<a href="?year=<?=date('Y',mktime(0,0,0,$month,$date-1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date-1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
 <a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date+1,$year))?>">次の日</a>
+</section>
 
+<section>
 <h2>体組成記録</h2>
 
 <?php 
@@ -97,7 +100,7 @@ if (empty($dateresultsbody)) {
 if (!empty($dateresultsbody)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>計測日</th>
     <th>体重</th>
@@ -136,7 +139,7 @@ if (empty($dateresultsmeal)) {
 if (!empty($dateresultsmeal)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>食事した日</th>
     <th>食べた物</th>
@@ -183,7 +186,7 @@ if (empty($dateresultstraining)) {
 if (!empty($dateresultstraining)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>部位</th>
     <th>種目</th>
@@ -214,6 +217,7 @@ if (!empty($dateresultstraining)) {
   </table>
   </li>
 </ul>
+</section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/js/training.js"></script>

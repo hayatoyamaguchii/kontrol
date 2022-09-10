@@ -20,12 +20,13 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-
+<section>
 <div class="open open1">トレーニング記録を登録する</div>
 <div class="mask hidden"></div>
+</section>
 
 <section class="modal modal1 hidden">
-<h1>トレーニング記録を登録する</h1>
+<h2>トレーニング記録を登録する</h2>
 <form action="?action=add" method="post">
   <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
   <ul id="form">
@@ -78,13 +79,11 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 <div class="close1 close">閉じる</div>
 </section>
 
-<a href="/alltraining.php">全ての記録</a>
-
 <section id="recenttrainings">
-  <h1>最近の記録</h1>
+  <h2>最近の記録</h2>
   <ul>
     <li>
-    <table border="1">
+    <table>
       <tr>
         <th>実施日</th>
         <th>部位</th>
@@ -113,8 +112,10 @@ $type = filter_input(INPUT_GET, 'searchbytype');
     </table>
     </li>
   </ul>
+  <a href="/alltraining.php">全ての記録</a>
 </section>
 
+<section>
 <form action="?action=searchbydate" method="get">
   <ul>
   <li>
@@ -143,7 +144,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 if (!empty($searchbydate)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>実施日</th>
     <th>部位</th>
@@ -178,7 +179,7 @@ if (!empty($searchbydate)) {
 if (!empty($searchbytype)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>実施日</th>
     <th>部位</th>
@@ -219,6 +220,7 @@ if (empty($typeresult) && isset($_GET['searchbytype'])) {
   echo '<p>'. $type . 'に該当するデータがありません。</p>';
   }
 ?>
+</section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 <script src="/js/training.js"></script>

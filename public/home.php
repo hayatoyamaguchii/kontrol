@@ -11,10 +11,7 @@ if (!isset($_SESSION['mail'])) {
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<?php if(isset($_SESSION['mail'])) {
-	echo ($_SESSION['mail']);
-}
-?>
+<?php if(isset($_SESSION['mail'])) { echo ($_SESSION['mail']); }?>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 </body>

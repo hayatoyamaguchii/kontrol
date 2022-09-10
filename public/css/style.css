@@ -7,24 +7,55 @@ common
 * {
   box-sizing: border-box;
   --base-color: #fff;
-  --main-color: #000;
-  --accent-color: #D00;
-  --headerheight: 60px;
+  --accent-color: #F15A22;
+  --headerwidth: 120px;
 }
 
 html {
-  font-size: 12px;
+  font-size: 62.5%;
 }
 
 body {
   margin: 0;
-  color: var(--main-color);
-  background-color: var(--base-color);
+}
+
+main {
+  margin-left: var(--headerwidth);
+  padding: 3rem 0 0 1rem;
+  background-color: #F5F5F4;
+}
+
+section {
+  padding: 1rem;
+  margin: 2rem 1rem 0;
+  background-color: #fff;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
+}
+
+footer {
+  padding-left: var(--headerwidth);
 }
 
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
   font-weight: normal;
+  position: relative;
+}
+
+h2 {
+  margin: 0 0 1rem 1rem;
+  font-size: 2rem;
+}
+
+h2::before{
+  content:"";
+  display:inline-block;
+  width:0.3rem;
+  height: 3rem;
+  background-color:var(--accent-color);
+  position:absolute;
+  top: 0;
+  left: -0.5rem;
 }
 
 ul, ol {
@@ -34,8 +65,13 @@ ul, ol {
 }
 
 a {
+  color: inherit;
   text-decoration: none;
   transition: .1s ease-in-out;
+}
+
+a:visited {
+  color: inherit;
 }
 
 @media screen and (min-width: 900px) {
@@ -48,32 +84,146 @@ a {
 header
 */
 
-.header-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: calc(var(--headerheight) * 2);
+.icon-color {
+  color: var(--accent-color);
 }
 
-.header-ul {
-  width: 80%;
-  height: var(--headerheight);
+.title-header {
+  width:100%;
+  height: 3rem;
+  padding: 0 1rem 0 0;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
+  position: fixed;
+  z-index: 2;
+  background-color: #070707;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.title-header-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-right: 0.5rem;
+}
+
+.title-header-icon {
+  font-size: 2rem;
+  padding: 0.5rem;
+}
+
+.title-header-text {
+  font-size: 0.75rem;
+}
+
+.showtitleheadersubmenu {
+  width: 100%;
+  font-size: 1rem;
+  background-color: #070707;
+  color: #75818D;
+  width: var(--headerwidth);
+  height: var(--headerwidth);
+  position: absolute;
+  top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-flow: column;
+}
+
+.title-header-submenu{
+  width: 100%;
+}
+
+header > h1 {
+  width: 10rem;
+  font-size: 1.75rem;
+  text-align: center;
+  color: #fff;
+}
+
+.title-header-item {
+  color: #75818D;
+}
+
+.title-header-item:hover {
+  color: #fff;
+  cursor: default;
+}
+
+nav {
   position: fixed;
-  top: calc(var(--headerheight) / 2);
-  z-index: 3;
-  background-color: var(--);
+  padding-top: 3rem;
+  width: var(--headerwidth);
+  height: 100%;
+  background-color: #272727;
+  z-index: 1;
 }
 
 .header-item {
-  margin: auto 2rem;
-  color: var(--main-color);
+  color: #75818D;
+  width: var(--headerwidth);
+  height: var(--headerwidth);
+  text-align: center;
+  border-bottom: 2px solid #75818D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
 }
 
-.header-logo {
-  display: block;
+.header-item:hover {
+  color: #fff;
 }
+
+.header-icon {
+  display: block;
+  font-size: calc(var(--headerwidth) / 2);
+}
+
+.mainmenu {
+  position: relative;
+}
+
+/* サイドメニューでホバーした時にサブメニューを表示する用 */
+/* .showsubmenu {
+  font-size: 0.75rem;
+  color: #75818D;
+  border: 2px solid #75818D;
+  width: var(--headerwidth);
+  height: var(--headerwidth);
+  background-color: #304352;
+  position: absolute;
+  bottom: 0;
+  right: -100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-flow: column;
+} */
+
+.subitemhref:hover {
+  color: #fff;
+}
+
+.current {
+  color: #fff;
+  position: relative;
+}
+
+.current.header-item::after {
+  content: "";
+  position: absolute;
+  top: 35%;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: calc(var(--headerwidth) / 8) calc(var(--headerwidth) / 8) calc(var(--headerwidth) / 8) 0;
+  border-color: transparent #F5F5F4 transparent transparent;
+}
+
 
 /* 
 hero
@@ -189,7 +339,6 @@ sign up
 footer
 */
 
-
 /* 
 meal
 */
@@ -198,16 +347,23 @@ meal
   display: flex;
 }
 
+.open {
+  background-color: #F15A22;
+  color: #F5F5F4;
+}
+
 
 .open, .close {
   cursor: pointer;
-  width: 200px;
-  height: 80px;
+  width: 15rem;
+  height: 5rem;
+  line-height: 4.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   text-align: center;
-  padding: 12px 0;
-  margin: 16px auto 0;
+  padding: auto 0;
+  margin:0 auto 0;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
 }
 
 .modal {

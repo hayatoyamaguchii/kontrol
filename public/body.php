@@ -17,11 +17,13 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
+<section>
 <div class="open open1">体組成を登録する</div>
 <div class="mask hidden"></div>
+</section>
 
 <section class="modal hidden">
-  <h1>体組成を登録する</h1>
+  <h2>体組成を登録する</h2>
   <form action="?action=add" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     <ul id="form">
@@ -45,14 +47,11 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
   <div class="close close1">閉じる</div>
 </section>
 
-
-<a href="/allbody.php">全ての記録</a>
-
 <section id="recentbodylist">
-  <h1>最近の記録</h1>
+  <h2>最近の記録</h2>
   <ul>
     <li>
-    <table border="1">
+    <table>
       <tr>
         <th>計測日</th>
         <th>体重</th>
@@ -75,8 +74,10 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
     </table>
     </li>
   </ul>
+  <a href="/allbody.php">全ての記録</a>
 </section>
 
+<section>
 <form action="?action=searchbydate" method="get">
   <ul>
   <li>
@@ -93,7 +94,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 if (!empty($dateresults)) {
   echo '<ul>
   <li>
-  <table border="1">
+  <table>
     <tr>
     <th>計測日</th>
     <th>体重</th>
@@ -126,6 +127,7 @@ elseif (empty($dateresults)) {
   echo '<p>'. $searchbydate . 'に該当するデータがありません。</p>';
   }
 ?>
+</section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>
 </body>
