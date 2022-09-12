@@ -104,7 +104,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
       <td><?= Utils::h($getrecenttraining->reps); ?></td>
       <td>
         <form class="deleteform" action="?action=delete" method="post">
-          <span class="delete">x</span>
+          <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecenttraining->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
@@ -166,7 +166,7 @@ if (!empty($searchbydate)) {
     <td><?= Utils::h($dateresult->reps); ?></td>
     <td>
       <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
@@ -201,7 +201,7 @@ foreach ($searchbytype as $typeresult): ?>
     <td><?= Utils::h($typeresult->reps); ?></td>
     <td>
       <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($typeresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>

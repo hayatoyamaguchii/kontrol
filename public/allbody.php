@@ -32,7 +32,7 @@ $getbody = $body->getAll();
       <td><?= Utils::h($getbody->bodyfat); ?></td>
       <td>
         <form class="deleteform" action="?action=delete" method="post">
-          <span class="delete">x</span>
+          <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($getbody->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>

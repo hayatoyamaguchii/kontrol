@@ -37,7 +37,7 @@ class Meal
           exit;
       }
     
-      header('Location: ' . SITE_URL . '/meal.php');
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
       exit;
     }
   }
@@ -95,6 +95,13 @@ class Meal
       $stmt = $this->pdo->query("SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food ORDER BY meal.date DESC LIMIT 5;");
       $getrecentmeals = $stmt->fetchAll();
       return $getrecentmeals;
+    }
+
+    public function getToday()
+    {
+      $stmt = $this->pdo->query("SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food WHERE date > DATE_SUB(NOW(), INTERVAL 1 DAY)");
+      $gettoday = $stmt->fetchAll();
+      return $gettoday;
     }
     
   public function getFoodlist()

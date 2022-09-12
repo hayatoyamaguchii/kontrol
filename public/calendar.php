@@ -116,7 +116,7 @@ if (!empty($dateresultsbody)) {
     <td><?= Utils::h($dateresult->bodyfat); ?></td>
     <td>
       <form class="deleteform" action="?action=delete" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
@@ -163,7 +163,7 @@ if (!empty($dateresultsmeal)) {
     <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
       <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
@@ -171,8 +171,40 @@ if (!empty($dateresultsmeal)) {
     </tr>
     <?php endforeach; ?>
   </table>
-  </li>
-</ul>
+
+  <section id="calendarmealtotal">
+  <h2>PFCバランス</h2>
+    <table class="calendarmealtotal">
+      <tr>
+        <td></td>
+        <th>カロリー(kcal)</th>
+        <th>たんぱく質(g)</th>
+        <th>脂質(g)</th>
+        <th>炭水化物(g)</th>
+      </tr>
+
+<?php
+  $calendarcal = 0;
+  $calendarpro = 0;
+  $calendarfat = 0;
+  $calendarcar = 0;
+  foreach ($dateresultsmeal as $dateresult)
+  {
+  $calendarcal += floatval( Utils::h($dateresult->cal) * Utils::h($dateresult->weight));
+  $calendarpro += floatval( Utils::h($dateresult->pro) * Utils::h($dateresult->weight));
+  $calendarfat += floatval( Utils::h($dateresult->fat) * Utils::h($dateresult->weight));
+  $calendarcar += floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight));
+  }
+?>
+  <tr>
+    <th>合計</th>
+    <td><?= Utils::h($calendarcal); ?></td>
+    <td><?= Utils::h($calendarpro); ?></td>
+    <td><?= Utils::h($calendarfat); ?></td>
+    <td><?= Utils::h($calendarcar); ?></td>
+  </tr>
+</table>
+</section>
 
 <h2>トレーニング記録</h2>
 
@@ -183,7 +215,7 @@ if (empty($dateresultstraining)) {
 ?>
 
 <?php 
-if (!empty($dateresultstraining)) {
+if (!empty($dateresultstraining)):
   echo '<ul>
   <li>
   <table>
@@ -194,7 +226,6 @@ if (!empty($dateresultstraining)) {
     <th>重量</th>
     <th>レップ数</th>
     </tr>';
-  }  
 ?>
 
 <?php foreach ($dateresultstraining as $dateresult): ?>
@@ -207,7 +238,7 @@ if (!empty($dateresultstraining)) {
     <td><?= floatval( Utils::h($dateresult->reps)); ?></td>
     <td>
       <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
@@ -215,8 +246,18 @@ if (!empty($dateresultstraining)) {
     </tr>
     <?php endforeach; ?>
   </table>
-  </li>
-</ul>
+  <section id="totalweight">
+<?php
+  $totalweight = 0;
+  foreach ($dateresultstraining as $dateresult)
+  {
+  $totalweight += floatval(Utils::h($dateresult->weight) * Utils::h($dateresult->reps));
+  }
+?>
+
+<h2>総負荷量</h2>
+<p><?= $totalweight; ?>kg</p>
+<?php endif; ?>
 </section>
 
 <?php require_once(__DIR__ . '/pages/_footer.php'); ?>

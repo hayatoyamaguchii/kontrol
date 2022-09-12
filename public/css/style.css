@@ -89,6 +89,10 @@ th,td {
   text-align: center;
 }
 
+.deleteform {
+  display: inline;
+}
+
 .delete {
   padding: 5px;
   border: solid 1px #75818D;

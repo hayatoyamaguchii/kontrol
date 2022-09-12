@@ -73,7 +73,7 @@ function calendartraining($pdo)
 
   $fulldate = $year . $month . $date;
 
-  $stmt = $pdo->query("SELECT * FROM trainings WHERE type = '" . $fulldate . "';");
+  $stmt = $pdo->query("SELECT * FROM trainings WHERE date = '" . $fulldate . "';");
 
   $dateresultstraining = $stmt->fetchAll();
   return $dateresultstraining;

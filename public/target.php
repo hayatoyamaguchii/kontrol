@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/option.php');
+  header('Location: ' . SITE_URL . '/target.php');
   exit;
 }
 
@@ -30,11 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<h2>メールアドレス</h2>
-<h2>パスワード</h2>
-<h2>生年月日</h2>
-<h2>身長</h2>
-<h2>退会する</h2>
+<h2>活動量</h2>
+<h2>目標体重</h2>
+<h2>摂取量</h2>
 
 <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
 

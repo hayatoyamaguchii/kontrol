@@ -18,6 +18,8 @@ CREATE TABLE user (
   PRIMARY KEY (id)
 );
 
+INSERT INTO user (mail, password, created, updated) VALUES ('test@test.test', '$2y$10$vqtt8gMKbvaybpzq1QtdQeNeVcCt0a/YeTI74/NoUUS1ZppoTwena', now(), now());
+
 CREATE TABLE pre_user (
   id INT NOT NULL AUTO_INCREMENT,
   urltoken VARCHAR(64),
@@ -74,21 +76,13 @@ CREATE TABLE mealwithfood
 AS
 SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food;
 
-INSERT INTO meal (date, food, weight) VALUES
-  (20220721, "バナナ(1本)", 1),
-  (20220721, "牛乳", 150);
-
-CREATE TABLE body (
+CREATE TABLE target (
   id INT NOT NULL AUTO_INCREMENT,
   user INT,
   date DATETIME,
-  sex ENUM('male', 'female'),
-  dob DATETIME,
-  height DECIMAL(5, 2) UNSIGNED,
-  weight DECIMAL(5, 2) UNSIGNED,
-  bodyfat DECIMAL(5, 2) UNSIGNED,
-  acticity TINYINT UNSIGNED,
-  targetweight DECIMAL(5, 2) UNSIGNED,
+  targetpro DECIMAL(7, 4) UNSIGNED,
+  targetfat DECIMAL(7, 4) UNSIGNED,
+  targetcar DECIMAL(7, 4) UNSIGNED,
   PRIMARY KEY (id)
 );
 
@@ -100,13 +94,3 @@ CREATE TABLE bodycom (
   bodyfat DECIMAL(5, 2) UNSIGNED,
   PRIMARY KEY (id)
 );
-
-SELECT * FROM trainings;
-SELECT * FROM meal;
-SELECT * FROM foodlist;
-SELECT * FROM meal INNER JOIN foodlist ON meal.food = foodlist.food;
-SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food;
-SELECT * FROM mealwithfood;
-SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('2022-07-21', '%Y-%m-%d');
-SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food ORDER BY meal.date DESC LIMIT 5;
-SELECT * FROM user WHERE mail = 'yamaguchihayatoo@gmail.com';

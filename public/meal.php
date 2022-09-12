@@ -25,7 +25,6 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 <div class="mask hidden"></div>
 <div class="open open2">リスト外から登録する</div>
 <div class="mask hidden"></div>
-
 </section>
 
 <!-- 食品リストから登録する機能 -->
@@ -146,7 +145,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
       <td><?=floatval( Utils::h($getrecentmeal->car) * Utils::h($getrecentmeal->weight)); ?></td>
       <td>
         <form class="deleteform" action="?action=deletemeal" method="post">
-          <span class="delete">x</span>
+          <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecentmeal->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
@@ -159,41 +158,6 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   <a href="/allmeal.php" class="orange">全ての記録</a>
 </section>
 
-<section id="recent7days">
-  <h2>直近7日間の平均</h2>
-  <table class="recent7days">
-    <tr>
-      <th></th>
-      <th>目標</th>
-      <th>直近7日間の平均</th>
-      <th>目標との差分</th>
-    </tr>
-    <tr>
-      <th>カロリー</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>たんぱく質</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>脂質</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>炭水化物</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-</section>
 
 <section>
 <form action="?action=searchbydate" method="get">
@@ -236,7 +200,7 @@ if (!empty($dateresults)) {
     <td><?= floatval( Utils::h($dateresult->car) * Utils::h($dateresult->weight)); ?></td>
     <td>
       <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">x</span>
+        <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
       </form>
@@ -253,6 +217,42 @@ elseif (empty($dateresults)) {
   echo '<p>'. $date . 'に該当するデータがありません。</p>';
   }
 ?>
+</section>
+
+<section id="recent7days">
+  <h2>直近7日間の平均摂取量</h2>
+  <table class="recent7days">
+    <tr>
+      <th></th>
+      <th>目標</th>
+      <th>直近7日間の平均</th>
+      <th>目標との差分</th>
+    </tr>
+    <tr>
+      <th>カロリー</th>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>たんぱく質</th>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>脂質</th>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>炭水化物</th>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
 </section>
 
 <section id="foodlist">

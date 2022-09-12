@@ -33,6 +33,7 @@ if (isset($_SESSION['mail'])) {
   </ul>
 </form>
 <p><a href="<?=SITE_URL . "/signup.php"?>">新規登録はこちら</a></p>
+<p>メールアドレス「test@test.test」、パスワード「test」でテストユーザーとして全ての機能を利用可能です。</p>
 
 <?php elseif ($_GET['state'] === 'error'): ?>
 <p>メールアドレスもしくはパスワードが間違っています。</p>

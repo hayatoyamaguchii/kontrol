@@ -27,7 +27,7 @@ class Training
           exit;
       }
     
-      header('Location: ' . SITE_URL . '/training.php');
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
       exit;
     }
   }
@@ -98,6 +98,13 @@ class Training
     $stmt = $this->pdo->query("SELECT * FROM trainings ORDER BY date DESC LIMIT 5");
     $getrecent = $stmt->fetchAll();
     return $getrecent;
+  }
+
+  public function getToday()
+  {
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE date > DATE_SUB(NOW(), INTERVAL 1 DAY)");
+    $gettoday = $stmt->fetchAll();
+    return $gettoday;
   }
 
   public function getByDate()

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
   }
 
-  header('Location: ' . SITE_URL . '/option.php');
+  header('Location: ' . $_SERVER['HTTP_REFERER']);
   exit;
 }
 
@@ -32,8 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h2>メールアドレス</h2>
 <h2>パスワード</h2>
-<h2>生年月日</h2>
-<h2>身長</h2>
 <h2>退会する</h2>
 
 <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">

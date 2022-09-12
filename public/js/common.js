@@ -46,6 +46,7 @@
       titleheadersubmenu[i].classList.add('hidden');
     });
   }
+  
   // サイドヘッダーホバー（使っていないが、追加した時用
   // const mainmenu = document.querySelectorAll('.mainmenu');
   // const submenu = document.querySelectorAll('.submenu');
@@ -60,19 +61,20 @@
   // }
 
   // ヘッダー現在のページ
-  let mainitem = document.getElementsByClassName('headerhref');
-    for (let i = 0; i < mainitem.length; i++) {
-      if(mainitem[i].href === location.href) {
-          mainitem[i].parentNode.classList.add('current');
+  let headericon = document.getElementsByClassName('headerhref');
+    for (let i = 0; i < headericon.length; i++) {
+      if(location.href.includes(headericon[i].href)) {
+          headericon[i].parentNode.classList.add('current');
         }
     }
 
-  let subitem = document.getElementsByClassName('subitemhref');
-  for (let i = 0; i < subitem.length; i++) {
-    if(subitem[i].href === location.href) {
-        subitem[i].closest(".mainmenu").classList.add('current');
-        subitem[i].parentNode.classList.add('current');
-      }
-  }
+    // 未使用（ヘッダーサブメニューがある場合
+  // let subitem = document.getElementsByClassName('subitemhref');
+  // for (let i = 0; i < subitem.length; i++) {
+  //   if(location.href.includes(subitem[i].href)) {
+  //       subitem[i].closest(".mainmenu").classList.add('current');
+  //       subitem[i].parentNode.classList.add('current');
+  //     }
+  // }
 
 }

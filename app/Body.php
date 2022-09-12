@@ -26,7 +26,7 @@ class Body
           exit;
       }
     
-      header('Location: ' . SITE_URL . '/body.php');
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
       exit;
     }
   }
