@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/app/config.php');
 
-if (!isset($_SESSION['mail'])) {
+if (!isset($_SESSION['user'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 

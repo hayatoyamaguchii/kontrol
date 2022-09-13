@@ -13,6 +13,7 @@ require_once(__DIR__ . '/Database.php');
 require_once(__DIR__ . '/Training.php');
 require_once(__DIR__ . '/Meal.php');
 require_once(__DIR__ . '/Body.php');
+require_once(__DIR__ . '/Target.php');
 require_once(__DIR__ . '/Calendar.php');
 require_once(__DIR__ . '/Signup.php');
 

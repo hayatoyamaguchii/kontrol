@@ -2,25 +2,10 @@
 
 require_once(__DIR__ . '/app/config.php');
 
-if (!isset($_SESSION['mail'])) {
+if (!isset($_SESSION['user'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  Token::validate();
-  $action = filter_input(INPUT_GET, 'action');
-
-  switch ($action) {
-    case 'delete':
-      deleteMeal($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  header('Location: ' . SITE_URL . '/allmeal.php');
-  exit;
-}
 $meal = new Meal($pdo);
 $meal->processPost();
 $getmeals = $meal->getAll();

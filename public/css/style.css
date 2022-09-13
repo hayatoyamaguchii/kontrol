@@ -39,13 +39,16 @@ footer {
 
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
+  padding: 0;
   font-weight: normal;
   position: relative;
+  line-height: 1;
 }
 
 h2 {
   margin: 0 0 1rem 1rem;
   font-size: 2rem;
+  line-height: normal;
 }
 
 h2::before{
@@ -396,14 +399,15 @@ footer
 meal
 */
 
-#addmealarticle {
+#openwrapper {
   display: flex;
+  justify-content: space-between;
 }
 
 .open, .close {
   cursor: pointer;
-  width: 15rem;
-  height: 5rem;
+  width: 16rem;
+  height: 8rem;
   line-height: 4.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -417,6 +421,9 @@ meal
   background-color: var(--accent-color);
   color: #F5F5F4;
   transition: .1s  ease-in-out;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
 }
 
 .open:hover {
@@ -460,4 +467,39 @@ meal
 
 .hidden {
   display: none;
+}
+
+/* 
+calendar
+*/
+
+/* 
+home
+*/
+
+.addmealbutton-wrapper {
+  display: flex;
+  flex-flow: column;
+  margin:0 auto 0;
+}
+
+.button-subtext {
+  line-height: 1;
+  display: block;
+}
+
+.home-flexwrapper {
+  display: flex;
+}
+
+/* #todaymealtotal {
+  width: 80%;
+}
+
+#todaytotalweight {
+  width: 20%;
+} */
+
+div .home-mealopen {
+  height: 4rem;
 }

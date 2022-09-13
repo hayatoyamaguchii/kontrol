@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/app/config.php');
 
-if (!isset($_SESSION['mail'])) {
+if (!isset($_SESSION['user'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
@@ -16,21 +16,35 @@ $training = new Training($pdo);
 $training->processPost();
 $gettodaytrainings = $training->getToday();
 
+$target = new Target($pdo);
+$gettarget = $target->get();
+
+if (isset($gettarget)) {
+  foreach ($gettarget as $target) {
+    $targetpro = floatval($target->targetpro);
+    $targetfat = floatval($target->targetfat);
+    $targetcar = floatval($target->targetcar);
+  }}
+
+if(isset($targetpro, $targetfat, $targetcar)) {
+  $targetcal = $targetpro * 4 + $targetfat * 9 + $targetcar * 4;}
+  // たんぱく質、炭水化物（4kcal / 1g）、脂質（9kcal / 1g）の計算
 ?>
 
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<!-- 登録ボタン -->
-<section id="addmealarticle">
-<div class="open open1">食品リストから登録する</div>
-<div class="mask hidden"></div>
-<div class="open open2">リスト外から登録する</div>
-<div class="mask hidden"></div>
-<div class="open open3">トレーニング記録を登録する</div>
-<div class="mask hidden"></div>
-<div class="open open4">体組成を登録する</div>
-<div class="mask hidden"></div>
+<section id="openwrapper">
+  <div class="addmealbutton-wrapper">
+    <div class="open open1 home-mealopen"><h3 class="button-text">食事記録を登録する</h3><span class="button-subtext">食品リストから</span></div>
+    <div class="mask hidden"></div>
+    <div class="open open2 home-mealopen"><h3 class="button-text">食事記録を登録する</h3><span class="button-subtext">リスト外から</span></div>
+    <div class="mask hidden"></div>
+  </div>
+  <div class="open open3"><h3 class="button-text">トレーニング記録を登録する</h3></div>
+  <div class="mask hidden"></div>
+  <div class="open open4"><h3 class="button-text">体組成を登録する</h3></div>
+  <div class="mask hidden"></div>
 </section>
 
 <div class="modal modal1 hidden">
@@ -73,7 +87,7 @@ $gettodaytrainings = $training->getToday();
   <div class="close close1">閉じる</div>
 </div>
 </section>
-<!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
+
 <div class="modal modal2 hidden">
 <section>
   <h2>リスト外から登録する</h2>
@@ -208,7 +222,7 @@ $gettodaytrainings = $training->getToday();
 </section>
 </div>
 
-<!-- 今日の食事記録合計 -->
+<section class="home-flexwrapper">
 <section id="todaymealtotal">
   <h2>PFCバランス</h2>
     <table class="todaymealtotal">
@@ -234,25 +248,26 @@ $gettodaytrainings = $training->getToday();
   }
 ?>
   <tr>
-    <th>現在</th>
+    <th>現在摂取量</th>
     <td><?= Utils::h($todaycal); ?></td>
     <td><?= Utils::h($todaypro); ?></td>
     <td><?= Utils::h($todayfat); ?></td>
     <td><?= Utils::h($todaycar); ?></td>
   </tr>
   <tr>
-    <th>目標</th>
-    <td><?= Utils::h($todaycal); ?></td>
-    <td><?= Utils::h($todaypro); ?></td>
-    <td><?= Utils::h($todayfat); ?></td>
-    <td><?= Utils::h($todaycar); ?></td>
+    <th>目標摂取量
+    </th>
+    <td><?= Utils::h($targetcal); ?></td>
+    <td><?= Utils::h($targetpro); ?></td>
+    <td><?= Utils::h($targetfat); ?></td>
+    <td><?= Utils::h($targetcar); ?></td>
   </tr>
   <tr>
     <th>差分</th>
-    <td><?= Utils::h($todaycal); ?></td>
-    <td><?= Utils::h($todaypro); ?></td>
-    <td><?= Utils::h($todayfat); ?></td>
-    <td><?= Utils::h($todaycar); ?></td>
+    <td><?= Utils::h($todaycal) - Utils::h($targetcal); ?></td>
+    <td><?= Utils::h($todaypro) - Utils::h($targetpro); ?></td>
+    <td><?= Utils::h($todayfat) - Utils::h($targetfat); ?></td>
+    <td><?= Utils::h($todaycar) - Utils::h($targetcar); ?></td>
   </tr>
 </table>
 </section>
@@ -269,9 +284,7 @@ $gettodaytrainings = $training->getToday();
 <h2>総負荷量</h2>
 <p><?= $todaytotalweight; ?>kg</p>
 
-</section>
 
-<!-- タブメニュー -->
 <section id="todaymeallist">
   <h2>食事</h2>
   <ul>

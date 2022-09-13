@@ -77,7 +77,7 @@ function signup($pdo) {
   $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
   $stmt->bindValue('password', $password, PDO::PARAM_STR);
   $stmt->execute();
-  
+
   // pre_userのステータスを登録済みに更新
   $stmt = $pdo->prepare("UPDATE pre_user SET status = 1 WHERE mail = :mail;");
   $stmt->bindValue('mail', $mail, PDO::PARAM_STR);
@@ -111,16 +111,17 @@ function login($pdo) {
   $stmt->bindValue(':mail', $mail);
   $stmt->execute();
   $db = $stmt->fetch(PDO::FETCH_ASSOC);
-  // dbからパスワードがもらえれば$dbpassに入れる。もらえなければエラーを吐いてリターン。
+  // dbからパスワードがもらえれば$dbpassに入れる。もらえなければエラー、リターン。
   if (isset($db['password'])) {$dbpass = $db['password'];
   } else {
     $_GET['state'] = 'error';
     return;
   }
-  // パスワードが一致していたらセッションにメールを渡してログイン完了。不一致であればエラーを吐く。
+  // パスワードが一致していたらセッションにメールを渡してログイン完了。不一致であればエラー。
   if (password_verify($password, $dbpass)) {
       //メールアドレスをセッションに保存し、ログイン状態に。
       $_SESSION['mail'] = $mail;
+      $_SESSION['user'] = $db['id'];
       $_GET['state'] = 'loggedin';
   } else {
       $_GET['state'] = 'error';

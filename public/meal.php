@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/app/config.php');
 
-if (!isset($_SESSION['mail'])) {
+if (!isset($_SESSION['user'])) {
   header('Location: ' . SITE_URL . '/login.php');
 }
 
@@ -20,11 +20,11 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 <body>
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
-<section id="addmealarticle">
-<div class="open open1">食品リストから登録する</div>
-<div class="mask hidden"></div>
-<div class="open open2">リスト外から登録する</div>
-<div class="mask hidden"></div>
+<section id="openwrapper">
+  <div class="open open1">食品リストから登録する</div>
+  <div class="mask hidden"></div>
+  <div class="open open2">リスト外から登録する</div>
+  <div class="mask hidden"></div>
 </section>
 
 <!-- 食品リストから登録する機能 -->
@@ -68,6 +68,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   <div class="close close1">閉じる</div>
 </div>
 </section>
+
 <!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
 <div class="modal modal2 hidden">
 <section>
