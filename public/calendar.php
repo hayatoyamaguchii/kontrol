@@ -44,10 +44,10 @@ for($i=0;$i<$row;$i++){
 <section>
   <h2><?=$year?>年<?=$month?>月のカレンダー</h2>
   <p>
-    <a href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>
-    <a href="?year=<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>">翌月</a>
+    <a class="orange" href="?year=<?=date('Y',mktime(0,0,0,$month-1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month-1,$date,$year))?>">前月</a>
+    <a class="orange" href="?year=<?=date('Y',mktime(0,0,0,$month+1,$date,$year))?>&month=<?=date('m',mktime(0,0,0,$month+1,$date,$year))?>">翌月</a>
   </p>
-  <table>
+  <table class="calendartable">
     <tr>
       <th>日</th>
       <th>月</th>
@@ -58,20 +58,20 @@ for($i=0;$i<$row;$i++){
       <th>土</th>
     </tr>
     <?php foreach($calendar as $tr): ?>
-    <tr>
+    <tr class="calendardatetr">
       <?php foreach($tr as $td):?>
         <?php if(substr($td,0,1)==="*"): ?>
-          <td class="today"><a href="?year=<?=$year?>&month=<?=$month ?>&date=<?=substr($td,1)?>"><?=substr($td,1)?></a></td>
+          <td class="today"><a class="calendardate" href="?year=<?=$year?>&month=<?=$month ?>&date=<?=substr($td,1)?>"><?=substr($td,1)?></a></td>
         <?php else: ?>
-          <td><a href="?year=<?=$year?>&month=<?=$month?>&date=<?=$td?>"><?=$td?></a></td>
+          <td><a class="calendardate" href="?year=<?=$year?>&month=<?=$month?>&date=<?=$td?>"><?=$td?></a></td>
         <?php endif;?>
       <?php endforeach;?>
     </tr>
     <?php endforeach;?>
   </table>
 
-<a href="?year=<?=date('Y',mktime(0,0,0,$month,$date-1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date-1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
-<a href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date+1,$year))?>">次の日</a>
+<a class="orange" href="?year=<?=date('Y',mktime(0,0,0,$month,$date-1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date-1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date-1,$year))?>">前の日</a>
+<a class="orange" href="?year=<?=date('Y',mktime(0,0,0,$month,$date+1,$year))?>&month=<?=date('m',mktime(0,0,0,$month,$date+1,$year))?>&date=<?=date('j',mktime(0,0,0,$month,$date+1,$year))?>">次の日</a>
 </section>
 
 <section>

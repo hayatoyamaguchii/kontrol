@@ -54,25 +54,21 @@ $type = filter_input(INPUT_GET, 'searchbytype');
       <input type="text" name="type" id="type" required>
     </li>
     <li>
-      <label for="sets">セット数</label>
+      <label for="sets">何セット目？</label>
       <input type="number" name="sets" id="sets">sets
     </li>
     <li>
-      <label for="weight">重量(1セット目)</label>
+      <label for="weight">重量</label>
       <input type="number" step="0.25" name="weight0" id="weight" required>kg
     </li>
     <li>
-      <label for="reps">レップ数(1セット目)</label>
+      <label for="reps">レップ数</label>
       <input type="number" name="reps0" id="reps" required>reps
     </li>
     <li>
       <ul id="addparent">
       </ul>
     </li>
-    <li>
-      <button type="button" id="addsets">セットを追加</button>
-      <button type="button" id="deletesets">セットを削除</button>
-    </ul>
     <li>
       <button type="submit">送信</button>
     </li>

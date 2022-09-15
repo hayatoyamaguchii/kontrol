@@ -168,25 +168,21 @@ if(isset($targetpro, $targetfat, $targetcar)) {
       <input type="text" name="type" id="type" required>
     </li>
     <li>
-      <label for="sets">セット数</label>
+      <label for="sets">何セット目？</label>
       <input type="number" name="sets" id="sets">sets
     </li>
     <li>
-      <label for="weight">重量(1セット目)</label>
+      <label for="weight">重量</label>
       <input type="number" step="0.25" name="weight0" id="weight" required>kg
     </li>
     <li>
-      <label for="reps">レップ数(1セット目)</label>
+      <label for="reps">レップ数</label>
       <input type="number" name="reps0" id="reps" required>reps
     </li>
     <li>
       <ul id="addparent">
       </ul>
     </li>
-    <li>
-      <button type="button" id="addsets">セットを追加</button>
-      <button type="button" id="deletesets">セットを削除</button>
-    </ul>
     <li>
       <button type="submit">送信</button>
     </li>
@@ -224,7 +220,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
 
 <section class="home-flexwrapper">
 <section id="todaymealtotal">
-  <h2>PFCバランス</h2>
+  <h2>本日のマクロ栄養素合計量</h2>
     <table class="todaymealtotal">
       <tr>
         <td></td>
@@ -281,9 +277,10 @@ if(isset($targetpro, $targetfat, $targetcar)) {
   }
 ?>
 
-<h2>総負荷量</h2>
-<p><?= $todaytotalweight; ?>kg</p>
-
+<h2>本日の総負荷量</h2>
+<p class="todaytotalweight"><?= $todaytotalweight; ?>kg</p>
+</section>
+</section>
 
 <section id="todaymeallist">
   <h2>食事</h2>

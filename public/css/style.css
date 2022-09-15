@@ -12,7 +12,7 @@ common
 }
 
 html {
-  font-size: 62.5%;
+  height: 100%;
 }
 
 body {
@@ -21,8 +21,9 @@ body {
 }
 
 main {
+  height: 100%;
   margin-left: var(--headerwidth);
-  padding: 3rem 0 0 0;
+  padding: 3rem 0 3rem 0;
   background-color: #F5F5F4;
 }
 
@@ -68,6 +69,10 @@ ul, ol {
   list-style: none;
 }
 
+li {
+  list-style: none;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -78,14 +83,8 @@ a:visited {
   color: inherit;
 }
 
-@media screen and (min-width: 900px) {
-  html {
-    font-size: 18px;
-  }
-}
-
 th,td {
-  border-bottom: solid 1px;              /* 枠線指定 */
+  border-bottom: solid 1px;
   font-size: 1rem;
   padding: .25rem;
   vertical-align: middle;
@@ -106,10 +105,6 @@ th,td {
   cursor: pointer;
 }
 
-/* .foodlist tr td:nth-of-type(2){
-  border-right: solid 1px;
-} */
-
 th {
   background-color: #f1592224;
 }
@@ -119,7 +114,7 @@ td {
 }
 
 table {
-  border-collapse:  collapse;
+  border-collapse: collapse;
   width: 100%;
   border: solid 1px;
 }
@@ -130,6 +125,16 @@ table {
 
 .unit-kcal::after {
   content: "kcal";
+}
+
+/* 
+レスポンシブ
+*/
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 /* 
@@ -258,10 +263,10 @@ nav {
   justify-content: space-evenly;
   flex-flow: column;
 } */
-
+/* 
 .subitemhref:hover {
   color: #fff;
-}
+} */
 
 .current {
   color: #fff;
@@ -280,124 +285,13 @@ nav {
   border-color: transparent #F5F5F4 transparent transparent;
 }
 
-
-/* 
-hero
-*/
-
-.hero {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  z-index: -1;
-}
-
-.hero-vid {
-  display: flex;
-  height:100%;
-  width: 100%;
-  justify-content: center;
-  align-content: end;
-}
-
-.hero > strong {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hero > img {
-  height: 100%;
-  width: 100%;
-  background-color: var(--base-color);
-}
-
-.hero-cover {
-  height: 100vh;
-  position: relative;
-  z-index: 2;
-}
-
-/*
-body
-*/
-
-.section {
-  height: calc(100vh - var(--headerheight));
-  width: 100vw;
-  padding: 0 2rem;
-  background-color: var(--base-color);
-}
-
-.section-title {
-  text-align: center;
-  padding: 2rem;
-  font-size: 2rem;
-}
-
-.section-subtitle {
-  font-size: 1.5rem;
-}
-
-/*
-service
-*/
-
-.service-item {
-  height: 80%;
-  width: 80%;
-  background-color: var(--base-color);
-  border-radius: 50%;
-  text-align: center;
-}
-
-.service p, .service h3 {
-  text-align: center;
-}
-
-/* 
-how to use
-*/
-
-.howtouse {
-  height: auto;
-  width: auto;
-  text-align: center;
-}
-
-.howtouse-list > li + li {
-  margin-top: 50px;
-}
-
-.howtouse h5 {
-  font-size: 1.25rem;
-}
-
-.howtouse img {
-  height: 50vh;
-}
-
-.howtouse-list > li {
-  height: 70vh;
-}
-
-/*
-sign up
-*/
-
-.signup {
-  background-color: var(--base-color);
-}
-
 /*
 footer
 */
 
 /* 
-meal
-*/
+モーダルウィンドウ系
+ */
 
 #openwrapper {
   display: flex;
@@ -434,11 +328,35 @@ meal
 
 .close {
   transition: .1s;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  margin-top: 1rem;
 }
 
 .close:hover {
   transform: translate3d(0, 2px, 0);
   background-color: #F5F5F4;
+  box-shadow: none;
+}
+
+button[type="submit"] {
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  height: 5rem;
+  width: 8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+  color: #F5F5F4;
+  outline: none;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
+}
+
+button[type="submit"]:hover {
+  transform: translate3d(0, 2px, 0);
+  background-color: #CE400D;
   box-shadow: none;
 }
 
@@ -470,10 +388,6 @@ meal
 }
 
 /* 
-calendar
-*/
-
-/* 
 home
 */
 
@@ -492,14 +406,69 @@ home
   display: flex;
 }
 
-/* #todaymealtotal {
-  width: 80%;
+div .home-mealopen {
+  height: 4rem;
+}
+
+#todaymealtotal {
+  flex-grow: 7;
 }
 
 #todaytotalweight {
-  width: 20%;
-} */
+  display: flex;
+  flex-flow: column;
+  flex-grow: 3;
+}
 
-div .home-mealopen {
-  height: 4rem;
+.todaytotalweight {
+  display: block;
+  margin: auto auto;
+  font-size: 1.75rem;
+}
+
+/* 
+target
+*/
+
+.targetwrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nowtarget {
+  font-size: 1.75rem;
+  margin-left: 2rem;
+}
+
+/* 
+calendar
+*/
+
+.calendardatetr {
+  height: 3rem;
+}
+
+.calendardatetr td {
+  border: solid 1px #070707;
+}
+
+.calendardate {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.today {
+  background-color: #f15922d0;
+}
+
+/* 
+footer
+*/
+
+.footer {
+  background-color: #fff;
+  margin-right: 1rem;
+  line-height: 2rem;
+  text-align: right;
 }
