@@ -6,6 +6,7 @@ function calendarbody($pdo)
   $year=isset($_GET['year'])?(int)$_GET['year']:date("Y");
   $date=isset($_GET['date'])?(int)$_GET['date']:date("j");
   $month=isset($_GET['month'])?(int)$_GET['month']:date("n");
+  $user = $_SESSION['user'];
 
   if (!isset($year)){
     $year = date("Y");
@@ -21,7 +22,7 @@ function calendarbody($pdo)
 
   $fulldate = $year . $month . $date;
 
-  $stmt = $pdo->query("SELECT * FROM bodycom WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
+  $stmt = $pdo->query("SELECT * FROM bodycom WHERE user = '" . $user . "' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
 
   $dateresultsbody = $stmt->fetchAll();
   return $dateresultsbody;
@@ -32,6 +33,7 @@ function calendarmeal($pdo)
   $year=isset($_GET['year'])?(int)$_GET['year']:date("Y");
   $date=isset($_GET['date'])?(int)$_GET['date']:date("j");
   $month=isset($_GET['month'])?(int)$_GET['month']:date("n");
+  $user = $_SESSION['user'];
 
   if (!isset($year)){
     $year = date("Y");
@@ -47,7 +49,7 @@ function calendarmeal($pdo)
 
   $fulldate = $year . $month . $date;
 
-  $stmt = $pdo->query("SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
+  $stmt = $pdo->query("SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food  WHERE meal.user = '" . $user . "' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $fulldate . "', '%Y-%m-%d');");
 
   $dateresultsmeal = $stmt->fetchAll();
   return $dateresultsmeal;
@@ -58,6 +60,7 @@ function calendartraining($pdo)
   $year=isset($_GET['year'])?(int)$_GET['year']:date("Y");
   $date=isset($_GET['date'])?(int)$_GET['date']:date("j");
   $month=isset($_GET['month'])?(int)$_GET['month']:date("n");
+  $user = $_SESSION['user'];
 
   if (!isset($year)){
     $year = date("Y");
@@ -73,7 +76,7 @@ function calendartraining($pdo)
 
   $fulldate = $year . $month . $date;
 
-  $stmt = $pdo->query("SELECT * FROM trainings WHERE date = '" . $fulldate . "';");
+  $stmt = $pdo->query("SELECT * FROM trainings  WHERE user = '" . $user . "' AND date = '" . $fulldate . "';");
 
   $dateresultstraining = $stmt->fetchAll();
   return $dateresultstraining;

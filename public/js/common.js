@@ -46,19 +46,6 @@
       titleheadersubmenu[i].classList.add('hidden');
     });
   }
-  
-  // サイドヘッダーホバー（使っていないが、追加した時用
-  // const mainmenu = document.querySelectorAll('.mainmenu');
-  // const submenu = document.querySelectorAll('.submenu');
-
-  // for (let i = 0; i < mainmenu.length; i++) {
-  //   mainmenu[i].addEventListener('mouseover', function () {
-  //     submenu[i].classList.add('showsubmenu');
-  //   });
-  //   mainmenu[i].addEventListener('mouseout', function () {
-  //     submenu[i].classList.remove('showsubmenu');
-  //   });
-  // }
 
   // ヘッダー現在のページ
   let headericon = document.getElementsByClassName('headerhref');
@@ -68,13 +55,24 @@
         }
     }
 
-    // 未使用（ヘッダーサブメニューがある場合
-  // let subitem = document.getElementsByClassName('subitemhref');
-  // for (let i = 0; i < subitem.length; i++) {
-  //   if(location.href.includes(subitem[i].href)) {
-  //       subitem[i].closest(".mainmenu").classList.add('current');
-  //       subitem[i].parentNode.classList.add('current');
-  //     }
-  // }
+  // ハンバーガーメニュー
+
+  const overlayopen = document.querySelector('.sp-menu-open')
+  const overlayclose = document.querySelector('.sp-menu-close')
+  const overlay = document.querySelector('.sp-menu-overlay')
+
+  overlayopen.addEventListener('click', () => {
+    overlay.classList.remove('overlay-close');
+    overlay.classList.add('ovelay-open');
+    overlayopen.classList.add('overlay-close');
+    overlayclose.classList.remove('overlay-close');
+  });
+
+  overlayclose.addEventListener('click', () => {
+    overlay.classList.add('overlay-close');
+    overlay.classList.remove('ovelay-open');
+    overlayclose.classList.add('overlay-close');
+    overlayopen.classList.remove('overlay-close');
+  });
 
 }

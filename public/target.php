@@ -22,8 +22,13 @@ foreach ($gettarget as $target) {
 <?php require_once(__DIR__ . '/pages/_header.php'); ?>
 
 <section>
-<h2>目標カロリー量</h2>
-<li class="nowtarget unit-kcal"><?php 
+<h2 class="targeth2">目標カロリー量</h2>
+<li class="nowtarget 
+    <?php
+    if(!empty($targetcal)){
+      echo('unit-g');
+    }?>">
+  <?php 
 if(isset($targetpro, $targetfat, $targetcar)) {
 $targetcal = $targetpro * 4 + $targetfat * 9 + $targetcar * 4;
 echo($targetcal);
@@ -40,16 +45,20 @@ echo("?action=add");
   <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
   <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
 
-  <h2>目標たんぱく質量</h2>
+  <h2 class="targeth2">目標たんぱく質量</h2>
   <div class="targetwrapper">
-  <li class="nowtarget unit-g">
-    <?php 
+  <li class="nowtarget 
+    <?php
+    if(!empty($targetpro)){
+      echo('unit-g');
+    }?>">
+  <?php 
     if(!empty($targetpro)){
       echo(floatval($targetpro));
     } else {
       echo('登録されていません');
     }
-    ?>
+    ?></li>
     </li>
     <li>
       <label for="targetpro">目標を変更する</label>
@@ -57,9 +66,13 @@ echo("?action=add");
     </li>
   </div>
 
-  <h2>目標脂質量</h2>
+  <h2 class="targeth2">目標脂質量</h2>
   <div class="targetwrapper">
-  <li class="nowtarget unit-g">
+  <li class="nowtarget 
+    <?php
+    if(!empty($targetfat)){
+      echo('unit-g');
+    }?>">
     <?php 
     if(!empty($targetfat)){
       echo(floatval($targetfat));
@@ -74,9 +87,13 @@ echo("?action=add");
     </li>
   </div>
 
-  <h2>目標炭水化物量</h2>
+  <h2 class="targeth2">目標炭水化物量</h2>
   <div class="targetwrapper">
-    <li class="nowtarget unit-g">
+    <li class="nowtarget 
+    <?php
+    if(!empty($targetcar)){
+      echo('unit-g');
+    }?>">
     <?php
     if(!empty($targetcar)){
       echo(floatval($targetcar));

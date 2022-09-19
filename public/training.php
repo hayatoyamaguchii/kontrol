@@ -10,7 +10,6 @@ $training = new Training($pdo);
 $training->processPost();
 $getrecenttrainings = $training->getRecent();
 $searchbydate = $training->getByDate();
-$searchbytype = $training->getByType();
 
 $date = filter_input(INPUT_GET, 'searchbydate');
 $type = filter_input(INPUT_GET, 'searchbytype');
@@ -30,6 +29,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
   <h2>トレーニング記録を登録する</h2>
   <form action="?action=add" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="">実施した日</label>
@@ -59,11 +59,11 @@ $type = filter_input(INPUT_GET, 'searchbytype');
     </li>
     <li>
       <label for="weight">重量</label>
-      <input type="number" step="0.25" name="weight0" id="weight" required>kg
+      <input type="number" step="0.25" name="weight" id="weight" required>kg
     </li>
     <li>
       <label for="reps">レップ数</label>
-      <input type="number" name="reps0" id="reps" required>reps
+      <input type="number" name="reps" id="reps" required>reps
     </li>
     <li>
       <ul id="addparent">
@@ -89,6 +89,7 @@ $type = filter_input(INPUT_GET, 'searchbytype');
         <th>セット数</th>
         <th>重量</th>
         <th>レップ数</th>
+        <th>削除</th>
       </tr>
       <?php foreach ($getrecenttrainings as $getrecenttraining): ?>
       <tr>
@@ -115,8 +116,8 @@ $type = filter_input(INPUT_GET, 'searchbytype');
 
 <section>
 <form action="?action=searchbydate" method="get">
-  <ul>
-  <li>
+  <ul class="searchform">
+  <li class="searchli">
     <label for="">日付検索</label>
     <input type="date" name="searchbydate" id="searchbydate"required>
   </li>
@@ -126,21 +127,8 @@ $type = filter_input(INPUT_GET, 'searchbytype');
   </ul>
 </form>
 
-<form action="?action=searchbytype" method="get">
+<?php if (!empty($searchbydate)):?>
   <ul>
-  <li>
-    <label for="">種目で検索</label>
-    <input type="text" name="searchbytype" id="searchbytype"required>
-  </li>
-  <li>
-    <button type="submit">検索</button>
-  </li>
-  </ul>
-</form>
-
-<?php 
-if (!empty($searchbydate)) {
-  echo '<ul>
   <li>
   <table>
     <tr>
@@ -150,8 +138,8 @@ if (!empty($searchbydate)) {
     <th>セット数</th>
     <th>重量</th>
     <th>レップ数</th>
-    </tr>';
-  }
+    </tr>
+<?php endif; 
   foreach ($searchbydate as $dateresult): ?>
     <tr>
     <td><?= Utils::h($dateresult->date); ?></td>
@@ -174,48 +162,8 @@ if (!empty($searchbydate)) {
 </ul>
 
 <?php 
-if (!empty($searchbytype)) {
-  echo '<ul>
-  <li>
-  <table>
-    <tr>
-    <th>実施日</th>
-    <th>部位</th>
-    <th>種目</th>
-    <th>セット数</th>
-    <th>重量</th>
-    <th>レップ数</th>
-    </tr>';
-  }
-foreach ($searchbytype as $typeresult): ?>
-    <tr>
-    <td><?= Utils::h($typeresult->date); ?></td>
-    <td><?= Utils::h($typeresult->part); ?></td>
-    <td><?= Utils::h($typeresult->type); ?></td>
-    <td><?= Utils::h($typeresult->sets); ?></td>
-    <td><?= Utils::h($typeresult->weight); ?></td>
-    <td><?= Utils::h($typeresult->reps); ?></td>
-    <td>
-      <form class="deleteform" action="?action=deletemeal" method="post">
-        <span class="delete">削除</span>
-        <input type="hidden" name="id" value="<?= Utils::h($typeresult->id); ?>">
-        <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
-      </form>
-    </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
-  </li>
-</ul>
-
-<?php 
 if (empty($dateresult) && isset($_GET['searchbydate'])) {
   echo '<p>'. $date . 'に該当するデータがありません。</p>';
-  }
-?>
-<?php 
-if (empty($typeresult) && isset($_GET['searchbytype'])) {
-  echo '<p>'. $type . 'に該当するデータがありません。</p>';
   }
 ?>
 </section>

@@ -34,10 +34,10 @@ class Training
 
   private function add()
 {
-  // 条件式（$i < 10)を、（次のデータがある場合）に書き換えたい。
-  // 現状だと5回繰り返して送信することになっている。
-  for($i = 0; $i < 5; $i++) {
-
+  $traininguser = trim(filter_input(INPUT_POST, 'user'));
+  if ($traininguser === '') {
+    return;
+  }
   $trainingdate = trim(filter_input(INPUT_POST, 'date'));
   if ($trainingdate === '') {
     return;
@@ -54,16 +54,17 @@ class Training
   if ($trainingsets === '') {
     return;
   }
-  $trainingweight = trim(filter_input(INPUT_POST, 'weight' . $i));
+  $trainingweight = trim(filter_input(INPUT_POST, 'weight'));
   if ($trainingweight === '') {
     return;
   }
-  $trainingreps = trim(filter_input(INPUT_POST, 'reps' . $i));
+  $trainingreps = trim(filter_input(INPUT_POST, 'reps'));
   if ($trainingreps === '') {
     return;
   }
 
-  $stmt = $this->pdo->prepare("INSERT INTO trainings (date, part, type, sets, weight, reps) VALUES (:date, :part, :type, :sets, :weight, :reps)");
+  $stmt = $this->pdo->prepare("INSERT INTO trainings (user, date, part, type, sets, weight, reps) VALUES (:user, :date, :part, :type, :sets, :weight, :reps)");
+  $stmt->bindValue('user', $traininguser, PDO::PARAM_STR);
   $stmt->bindValue('date', $trainingdate, PDO::PARAM_STR);
   $stmt->bindValue('part', $trainingpart, PDO::PARAM_STR);
   $stmt->bindValue('type', $trainingtype, PDO::PARAM_STR);
@@ -71,7 +72,6 @@ class Training
   $stmt->bindValue('weight', $trainingweight, PDO::PARAM_STR);
   $stmt->bindValue('reps', $trainingreps, PDO::PARAM_STR);
   $stmt->execute();
-  }
 }
 
   private function delete()
@@ -88,21 +88,27 @@ class Training
 
   public function getAll()
   {
-    $stmt = $this->pdo->query("SELECT * FROM trainings ORDER BY date DESC");
+    $user = $_SESSION['user'];
+
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE user = '" . $user . "' ORDER BY date DESC");
     $getall = $stmt->fetchAll();
     return $getall;
   }
 
   public function getRecent()
   {
-    $stmt = $this->pdo->query("SELECT * FROM trainings ORDER BY date DESC LIMIT 5");
+    $user = $_SESSION['user'];
+
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE user = '" . $user . "' ORDER BY date DESC LIMIT 5");
     $getrecent = $stmt->fetchAll();
     return $getrecent;
   }
 
   public function getToday()
   {
-    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE date > DATE_SUB(NOW(), INTERVAL 1 DAY)");
+    $user = $_SESSION['user'];
+    
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE user = '" . $user . "' AND date > DATE_SUB(NOW(), INTERVAL 1 DAY)");
     $gettoday = $stmt->fetchAll();
     return $gettoday;
   }
@@ -110,21 +116,12 @@ class Training
   public function getByDate()
   {
     $date = filter_input(INPUT_GET, 'searchbydate');
+    $user = $_SESSION['user'];
 
-    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $date . "', '%Y-%m-%d');");
+    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE user = '" . $user . "' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $date . "', '%Y-%m-%d');");
   
     $searchbydate = $stmt->fetchAll();
     return $searchbydate;
-  }
-
-  public function getByType()
-  {
-    $type = filter_input(INPUT_GET, 'searchbytype');
-
-    $stmt = $this->pdo->query("SELECT * FROM trainings WHERE type = '" . $type . "';");
-  
-    $searchbytype = $stmt->fetchAll();
-    return $searchbytype;
   }
 
 }

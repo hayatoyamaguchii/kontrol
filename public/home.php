@@ -7,28 +7,51 @@ if (!isset($_SESSION['user'])) {
 }
 
 $meal = new Meal($pdo);
-$meal->processPost();
 $gettodaymeals = $meal->getToday();
 $getgenres = $meal->getGenres();
 $getfoodlist = $meal->getFoodlist();
 
 $training = new Training($pdo);
-$training->processPost();
 $gettodaytrainings = $training->getToday();
+
+$body = new Body($pdo);
 
 $target = new Target($pdo);
 $gettarget = $target->get();
+
+$targetpro = 0;
+$targetfat = 0;
+$targetcar = 0;
 
 if (isset($gettarget)) {
   foreach ($gettarget as $target) {
     $targetpro = floatval($target->targetpro);
     $targetfat = floatval($target->targetfat);
     $targetcar = floatval($target->targetcar);
-  }}
+  }} 
 
 if(isset($targetpro, $targetfat, $targetcar)) {
   $targetcal = $targetpro * 4 + $targetfat * 9 + $targetcar * 4;}
   // たんぱく質、炭水化物（4kcal / 1g）、脂質（9kcal / 1g）の計算
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  Token::validate();
+  $class = filter_input(INPUT_GET, 'class');
+
+  switch ($class) {  
+    case 'meal':
+      $meal->processPost();
+      break;
+    case 'training':
+      $training->processPost();
+      break;
+    case 'body':
+      $body->processPost();
+      break;
+    default:
+      exit;
+  }
+}
 ?>
 
 <body>
@@ -50,8 +73,9 @@ if(isset($targetpro, $targetfat, $targetcar)) {
 <div class="modal modal1 hidden">
 <section>
   <h2>食品リストから登録する</h2>
-  <form action="?action=addmeal" method="post">
+  <form action="?action=addmeal&class=meal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -85,14 +109,15 @@ if(isset($targetpro, $targetfat, $targetcar)) {
     </ul>
   </form>
   <div class="close close1">閉じる</div>
-</div>
 </section>
+</div>
 
 <div class="modal modal2 hidden">
 <section>
   <h2>リスト外から登録する</h2>
-  <form action="?action=addmealandlist" method="post">
+  <form action="?action=addmealandlist&class=meal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -127,8 +152,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
       <input type="number" name="car" id="car" required>g
     </li>
       食品リストに追加する
-      <input type="hidden" name="check" id="check" value="0">
-      <input type="checkbox" name="check" id="check" value="1">
+      <input type="checkbox" name="check" id="check" value="0">
     </li>
     <li>
       <button type="submit">送信</button>
@@ -141,9 +165,11 @@ if(isset($targetpro, $targetfat, $targetcar)) {
 
 <div class="modal modal3 hidden">
 <section>
+<section>
   <h2>トレーニング記録を登録する</h2>
-  <form action="?action=add" method="post">
+  <form action="?action=add&class=training" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="">実施した日</label>
@@ -173,11 +199,11 @@ if(isset($targetpro, $targetfat, $targetcar)) {
     </li>
     <li>
       <label for="weight">重量</label>
-      <input type="number" step="0.25" name="weight0" id="weight" required>kg
+      <input type="number" step="0.25" name="weight" id="weight" required>kg
     </li>
     <li>
       <label for="reps">レップ数</label>
-      <input type="number" name="reps0" id="reps" required>reps
+      <input type="number" name="reps" id="reps" required>reps
     </li>
     <li>
       <ul id="addparent">
@@ -194,8 +220,9 @@ if(isset($targetpro, $targetfat, $targetcar)) {
 <div class="modal modal4 hidden">
 <section>
   <h2>体組成を登録する</h2>
-  <form action="?action=add" method="post">
+  <form action="?action=add&class=body" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">計測日</label>
@@ -223,7 +250,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
   <h2>本日のマクロ栄養素合計量</h2>
     <table class="todaymealtotal">
       <tr>
-        <td></td>
+        <th></th>
         <th>カロリー(kcal)</th>
         <th>たんぱく質(g)</th>
         <th>脂質(g)</th>
@@ -295,6 +322,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
         <th>たんぱく質(g)</th>
         <th>脂質(g)</th>
         <th>炭水化物(g)</th>
+        <th></th>
       </tr>
       <?php foreach ($gettodaymeals as $gettodaymeal): ?>
       <tr>
@@ -306,7 +334,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
       <td><?=floatval( Utils::h($gettodaymeal->fat) * Utils::h($gettodaymeal->weight)); ?></td>
       <td><?=floatval( Utils::h($gettodaymeal->car) * Utils::h($gettodaymeal->weight)); ?></td>
       <td>
-        <form class="deleteform" action="?action=deletemeal" method="post">
+        <form class="deleteform" action="?action=deletemeal&class=meal" method="post">
           <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($gettodaymeal->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
@@ -332,6 +360,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
         <th>セット数</th>
         <th>重量</th>
         <th>レップ数</th>
+        <th></th>
       </tr>
       <?php foreach ($gettodaytrainings as $gettodaytraining): ?>
       <tr>
@@ -342,7 +371,7 @@ if(isset($targetpro, $targetfat, $targetcar)) {
       <td><?= Utils::h($gettodaytraining->weight); ?></td>
       <td><?= Utils::h($gettodaytraining->reps); ?></td>
       <td>
-        <form class="deleteform" action="?action=delete" method="post">
+        <form class="deleteform" action="?action=delete&class=training" method="post">
           <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($gettodaytraining->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">

@@ -33,6 +33,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   <h2>食品リストから登録する</h2>
   <form action="?action=addmeal" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -66,8 +67,8 @@ $date = filter_input(INPUT_GET, 'searchbydate');
     </ul>
   </form>
   <div class="close close1">閉じる</div>
-</div>
 </section>
+</div>
 
 <!-- リストへの登録をしながら追加する機能。チェックボックスで登録するかしないかを選択。 -->
 <div class="modal modal2 hidden">
@@ -75,6 +76,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   <h2>リスト外から登録する</h2>
   <form action="?action=addmealandlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">食事した日時</label>
@@ -109,8 +111,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
       <input type="number" name="car" id="car" required>g
     </li>
       食品リストに追加する
-      <input type="hidden" name="check" id="check" value="0">
-      <input type="checkbox" name="check" id="check" value="1">
+      <input type="checkbox" name="check" id="check" value="0">
     </li>
     <li>
       <button type="submit">送信</button>
@@ -134,6 +135,7 @@ $date = filter_input(INPUT_GET, 'searchbydate');
         <th>たんぱく質(g)</th>
         <th>脂質(g)</th>
         <th>炭水化物(g)</th>
+        <th>削除</th>
       </tr>
       <?php foreach ($getrecentmeals as $getrecentmeal): ?>
       <tr>
@@ -162,8 +164,8 @@ $date = filter_input(INPUT_GET, 'searchbydate');
 
 <section>
 <form action="?action=searchbydate" method="get">
-  <ul>
-  <li>
+  <ul class="searchform">
+  <li class="searchli">
     <label for="">日付検索</label>
     <input type="date" name="searchbydate" id="searchbydate"required>
   </li>
@@ -173,24 +175,21 @@ $date = filter_input(INPUT_GET, 'searchbydate');
   </ul>
 </form>
 
-<?php 
-if (!empty($dateresults)) {
-  echo '<ul>
-  <li>
+<?php if (!empty($dateresults)): ?>
+<ul>
   <table>
     <tr>
-    <th>食事した日</th>
-    <th>食べた物</th>
-    <th>量(g / 個)</th>
-    <th>カロリー(kcal)</th>
-    <th>たんぱく質(g)</th>
-    <th>脂質(g)</th>
-    <th>炭水化物(g)</th>
-    </tr>';
-  }  
-?>
+      <th>食事した日</th>
+      <th>食べた物</th>
+      <th>量(g / 個)</th>
+      <th>カロリー(kcal)</th>
+      <th>たんぱく質(g)</th>
+      <th>脂質(g)</th>
+      <th>炭水化物(g)</th>
+      <th>削除</th>
+    </tr>
 
-<?php foreach ($dateresults as $dateresult): ?>
+<?php endif; foreach ($dateresults as $dateresult): ?>
     <tr>
     <td><?= Utils::h($dateresult->date); ?></td>
     <td><?= Utils::h($dateresult->food); ?></td>
@@ -209,7 +208,6 @@ if (!empty($dateresults)) {
     </tr>
     <?php endforeach; ?>
   </table>
-  </li>
 </ul>
 <?php 
 if (empty($date)) {
@@ -220,51 +218,8 @@ elseif (empty($dateresults)) {
 ?>
 </section>
 
-<section id="recent7days">
-  <h2>直近7日間の平均摂取量</h2>
-  <table class="recent7days">
-    <tr>
-      <th></th>
-      <th>目標</th>
-      <th>直近7日間の平均</th>
-      <th>目標との差分</th>
-    </tr>
-    <tr>
-      <th>カロリー</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>たんぱく質</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>脂質</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>炭水化物</th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-</section>
-
 <section id="foodlist">
   <h2>マイ食品リスト</h2>
-    <label for="genre">ジャンル</label>
-    <select type="text" name="genre" id="genre" required>
-      <option value="">選択してください</option>
-    <?php foreach ($getgenres as $getgenre): ?>
-      <option value="<?= Utils::h($getgenre->genre); ?>"><?= Utils::h($getgenre->genre); ?></option>
-    <?php endforeach; ?>
-    </select>
   <table class="foodlist">
     <tr>
       <th>ジャンル</th>
@@ -273,7 +228,8 @@ elseif (empty($dateresults)) {
       <th>たんぱく質</th>
       <th>脂質</th>
       <th>炭水化物</th>
-      <th></th>
+      <th>変更</th>
+      <th>削除</th>
     </tr>
     <?php foreach ($getfoodlist as $getfoodlist): ?>
       <tr>
@@ -283,6 +239,55 @@ elseif (empty($dateresults)) {
       <td><span class="unit-g"><?= floatval(($getfoodlist->pro)); ?></span></td>
       <td><span class="unit-g"><?= floatval(($getfoodlist->fat)); ?></span></td>
       <td><span class="unit-g"><?= floatval(($getfoodlist->car)); ?></span></td>
+      <td>
+        <form class="changeform" action="?action=changelist" method="post">
+        <div class="open open4" id="change">変更</div>
+        <div class="mask hidden"></div>
+        <div class="modal modal4 addlistmodal hidden">
+        <section>
+          <h2>食品情報の変更</h2>
+          <form action="?action=changelist" method="post">
+            <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+            <input type="hidden" name="id" value="<?= Utils::h($getfoodlist->id); ?>">
+            <ul id="form">
+            <li>
+              <label for="genre">ジャンル</label>
+              <input type="text" name="genre" id="genre" required>
+            </li>
+            <li>
+              <label for="food">食品名</label>
+              <input type="text" name="food" id="food" required>
+            </li>
+            <li>
+              <label for="weight">量</label>
+              <input type="number" name="weight" id="weight" required>g / 個
+            </li>
+            <li>
+              <label for="cal">カロリー</label>
+              <input type="number" name="cal" id="cal" required>kcal</li>
+            <li>
+            <li>
+              <label for="pro">たんぱく質量</label>
+              <input type="number" name="pro" id="pro" required>g
+            </li>
+            <li>
+              <label for="fat">脂質量</label>
+              <input type="number" name="fat" id="fat" required>g
+            </li>
+            <li>
+              <label for="car">炭水化物量</label>
+              <input type="number" name="car" id="car" required>g
+            <li>
+            <li>
+              <button type="submit">変更</button>
+            </li>
+            </ul>
+          </form>
+          <div class="close close4">閉じる</div>
+        </section>
+        </div>
+        </form>
+      </td>
       <td class="deletetd">
         <form class="deleteform" action="?action=deletelist" method="post">
           <span class="delete">削除</span>
@@ -294,15 +299,16 @@ elseif (empty($dateresults)) {
       <?php endforeach; ?>
   </table>
 
-<div class="open open3">食品を追加</div>
+<div class="open open3 addlistopen">食品を追加</div>
 <div class="mask hidden"></div>
 </seciton>
 
-<div class="modal modal3 hidden">
+<div class="modal modal3 addlistmodal hidden">
 <section>
   <h2>食品を追加</h2>
   <form action="?action=addlist" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="genre">ジャンル</label>
@@ -332,6 +338,8 @@ elseif (empty($dateresults)) {
       <label for="weight">量</label>
       <input type="number" name="weight" id="weight" required>(g / 個)
     </li>
+    <input type="hidden" name="check" id="check" value="0">
+    <li>
       <button type="submit">リストに登録</button>
     </li>
     </ul>

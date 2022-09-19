@@ -63,15 +63,6 @@ CREATE TABLE foodlist (
   PRIMARY KEY (id)
 );
 
-INSERT INTO foodlist (hidden,genre, food, cal, pro, fat, car) VALUES 
-  (1, "主食", "白米", 1.68, 0.025, 0.003, 0.371),
-  (1, "主菜", "鶏もも", 2, 0.162, 0.14, 0),
-  (1, "主菜", "牛もも", 1.4, 0.225, 0.046, 0.005),
-  (1, "主菜", "鶏胸皮なし", 1.08, 0.223, 0.015, 0),
-  (1, "主菜", "全卵(1個)", 91, 7.4, 6.2, 0.2),
-  (1, "おやつ", "バナナ(1本)", 77, 0.1, 0.02, 2.02),
-  (1, "飲み物", "牛乳", 0.67, 0.033, 0.038, 0.048);
-
 CREATE TABLE mealwithfood
 AS
 SELECT meal.id, meal.user, meal.date, meal.food, meal.weight, foodlist.genre, foodlist.cal, foodlist.pro, foodlist.fat, foodlist.car FROM meal INNER JOIN foodlist ON meal.food = foodlist.food;

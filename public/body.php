@@ -27,6 +27,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
   <h2>体組成を登録する</h2>
   <form action="?action=add" method="post">
     <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+    <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
     <ul id="form">
     <li>
       <label for="date">計測日</label>
@@ -58,6 +59,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
         <th>計測日</th>
         <th>体重</th>
         <th>体脂肪率</th>
+        <th>削除</th>
       </tr>
       <?php foreach ($getrecentbody as $getrecentbody): ?>
       <tr>
@@ -69,6 +71,7 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
           <span class="delete">削除</span>
           <input type="hidden" name="id" value="<?= Utils::h($getrecentbody->id); ?>">
           <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+          <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
         </form>
       </td>
       </tr>
@@ -81,8 +84,8 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
 
 <section>
 <form action="?action=searchbydate" method="get">
-  <ul>
-  <li>
+  <ul class="searchform">
+  <li class="searchli">
     <label for="">日付検索</label>
     <input type="date" name="searchbydate" id="searchbydate"required>
   </li>
@@ -92,18 +95,15 @@ $searchbydate = filter_input(INPUT_GET, 'searchbydate');
   </ul>
 </form>
 
-<?php 
-if (!empty($dateresults)) {
-  echo '<ul>
-  <li>
+<?php if (!empty($dateresults)): ?>
+
   <table>
     <tr>
     <th>計測日</th>
     <th>体重</th>
     <th>体脂肪率</th>
-    </tr>';
-  }  
-?>
+    <th>削除</th>
+    </tr>
 
 <?php foreach ($dateresults as $dateresult): ?>
     <tr>
@@ -115,14 +115,14 @@ if (!empty($dateresults)) {
         <span class="delete">削除</span>
         <input type="hidden" name="id" value="<?= Utils::h($dateresult->id); ?>">
         <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
+        <input type="hidden" name="user" value="<?= Utils::h($_SESSION['user']); ?>">
       </form>
     </td>
     </tr>
     <?php endforeach; ?>
   </table>
-  </li>
-</ul>
-<?php 
+
+<?php endif;
 if (empty($searchbydate)) {
   }
 elseif (empty($dateresults)) {

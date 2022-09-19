@@ -33,6 +33,10 @@ class Body
 
   private function add()
 {
+  $user = trim(filter_input(INPUT_POST, 'user'));
+  if ($user === '') {
+    return;
+  }
   $date = trim(filter_input(INPUT_POST, 'date'));
   if ($date === '') {
     return;
@@ -46,7 +50,8 @@ class Body
     return;
   }
 
-  $stmt = $this->pdo->prepare("INSERT INTO bodycom (date, weight, bodyfat) VALUES (:date, :weight, :bodyfat);");
+  $stmt = $this->pdo->prepare("INSERT INTO bodycom (user, date, weight, bodyfat) VALUES (:user, :date, :weight, :bodyfat);");
+  $stmt->bindValue('user', $user, PDO::PARAM_STR);
   $stmt->bindValue('date', $date, PDO::PARAM_STR);
   $stmt->bindValue('weight', $weight, PDO::PARAM_STR);
   $stmt->bindValue('bodyfat', $bodyfat, PDO::PARAM_STR);
@@ -67,14 +72,18 @@ class Body
 
   public function getAll()
 {
-  $stmt = $this->pdo->query("SELECT * FROM bodycom ORDER BY date DESC;");
+  $user = $_SESSION['user'];
+  
+  $stmt = $this->pdo->query("SELECT * FROM bodycom WHERE user = '" . $user . "' ORDER BY date DESC;");
   $recentbody = $stmt->fetchAll();
   return $recentbody;
 }
 
   public function getRecent()
 {
-  $stmt = $this->pdo->query("SELECT * FROM bodycom ORDER BY date DESC LIMIT 5;");
+  $user = $_SESSION['user'];
+
+  $stmt = $this->pdo->query("SELECT * FROM bodycom  WHERE user = '" . $user . "' ORDER BY date DESC LIMIT 5;");
   $recentbody = $stmt->fetchAll();
   return $recentbody;
 }
@@ -82,8 +91,9 @@ class Body
   public function searchbyDate()
 {
   $searchbydate = filter_input(INPUT_GET, 'searchbydate');
+  $user = $_SESSION['user'];
 
-  $stmt = $this->pdo->query("SELECT * FROM bodycom WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $searchbydate . "', '%Y-%m-%d');");
+  $stmt = $this->pdo->query("SELECT * FROM bodycom  WHERE user = '" . $user . "' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT('" . $searchbydate . "', '%Y-%m-%d');");
 
   $dateresults = $stmt->fetchAll();
   return $dateresults;

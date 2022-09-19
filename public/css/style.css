@@ -18,20 +18,25 @@ html {
 body {
   margin: 0;
   color: #333;
+  font-family:  "ヒラギノ角ゴ ProN W3", HiraKakuProN-W3, 游ゴシック, "Yu Gothic", メイリオ, Meiryo, Verdana, Helvetica, Arial, sans-serif;
 }
 
 main {
-  height: 100%;
-  margin-left: var(--headerwidth);
+  min-height: 100%;
   padding: 3rem 0 3rem 0;
+  margin-left: 0;
   background-color: #F5F5F4;
 }
 
 section {
-  padding: 1rem;
+  padding: 0.5rem;
   margin: 2rem 1rem 2rem;
   background-color: #fff;
   box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .2);
+}
+
+section > section {
+  margin: 0;
 }
 
 footer {
@@ -48,19 +53,30 @@ h1, h2, h3, h4, h5, h6, p {
 
 h2 {
   margin: 0 0 1rem 1rem;
-  font-size: 2rem;
+  font-size: 1rem;
   line-height: normal;
+  text-align: left;
 }
 
 h2::before{
   content:"";
   display:inline-block;
   width:0.3rem;
-  height: 3rem;
+  height: 1.5rem;
   background-color:var(--accent-color);
   position:absolute;
   top: 0;
   left: -0.5rem;
+}
+
+@media screen and (min-width: 900px) {
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h2::before {
+    height: 3rem;
+  }
 }
 
 ul, ol {
@@ -85,20 +101,36 @@ a:visited {
 
 th,td {
   border-bottom: solid 1px;
-  font-size: 1rem;
+  font-size: 0.3rem;
   padding: .25rem;
   vertical-align: middle;
   text-align: center;
 }
 
-.deleteform {
+@media screen and (min-width: 900px) {
+  th, td {
+    font-size: 1rem;
+  }
+}
+
+.deleteform, .changeform {
   display: inline;
 }
 
-.delete {
+.delete, #change {
+  display: block;
+  cursor: pointer;
   padding: 5px;
   border: solid 1px #75818D;
   border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  width: 3rem;
+  height: auto;
+  line-height: 1rem;
+  text-align: center;
+  margin: 0 auto 0;
+  box-shadow: none;
 }
 
 .delete:hover {
@@ -127,19 +159,136 @@ table {
   content: "kcal";
 }
 
-/* 
-レスポンシブ
-*/
+.searchform {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-@media screen and (min-width: 900px) {
-  html {
-    font-size: 18px;
-  }
+.searchli {
+  display: flex;
+  align-items: center;
 }
 
 /* 
 header
 */
+
+#pc-menu {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#sp-menu {
+  display: block;
+  position: fixed;
+  height: 3rem;
+  width: 3rem;
+  padding:0;
+  top: 0;
+  left: 1rem;
+  z-index: 5;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 18px;
+  }
+  
+
+  #pc-menu {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  #sp-menu {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  main {
+    margin-left: var(--headerwidth);
+  }
+}
+
+.sp-menu-overlay {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #070707e8;
+  text-align: center;
+  padding: 3rem;
+  z-index: 50;
+  transition: .1s;
+}
+
+.overlay-close {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sp-menu-icon {
+  display: block;
+  padding-top: 3rem;
+  font-size: calc(var(--headerwidth) / 2);
+  /* font-size: 100px; */
+  color: #75818D;
+  width: var(--headerwidth);
+  height: var(--headerwidth);
+  text-align: center;
+}
+
+#sp-menu-close, #sp-menu-open {
+  padding: 0;
+  margin: 0;
+  height: 3rem;
+  width: 3rem;
+  font-size: 3rem;
+}
+
+#sp-menu-wrapper {
+  position: fixed;
+  height: 3rem;
+  width: 3rem;
+  padding:0;
+  top: 0;
+  left: 1rem;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.title-header > h1 {
+  margin-left: 3rem;
+}
+
+@media screen and (min-width: 900px) {
+  .title-header > h1 {
+    margin-left: 1rem;
+  }
+}
+
+.header-ul {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+.header-item {
+  width: 30%;
+  margin: auto;
+}
 
 .orange {
   color: var(--accent-color) !important;
@@ -247,27 +396,6 @@ nav {
   position: relative;
 }
 
-/* サイドメニューでホバーした時にサブメニューを表示する用 */
-/* .showsubmenu {
-  font-size: 0.75rem;
-  color: #75818D;
-  border: 2px solid #75818D;
-  width: var(--headerwidth);
-  height: var(--headerwidth);
-  background-color: #304352;
-  position: absolute;
-  bottom: 0;
-  right: -100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-flow: column;
-} */
-/* 
-.subitemhref:hover {
-  color: #fff;
-} */
-
 .current {
   color: #fff;
   position: relative;
@@ -292,10 +420,11 @@ footer
 /* 
 モーダルウィンドウ系
  */
-
-#openwrapper {
-  display: flex;
-  justify-content: space-between;
+@media screen and (min-width: 900px) {
+  #openwrapper {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .open, .close {
@@ -343,6 +472,7 @@ footer
 button[type="submit"] {
   cursor: pointer;
   display: block;
+  margin-top: 1rem;
   margin-left: auto;
   height: 5rem;
   width: 8rem;
@@ -362,15 +492,28 @@ button[type="submit"]:hover {
 
 .modal {
   background: #F5F5F4;
-  width: 50%;
-  padding: 20px;
   border-radius: 4px;
   position: absolute;
-  top: 110px;
+  top: 6rem;
   left: 0;
   right: 0;
   margin: 0 auto;
-  z-index: 2;
+  z-index: 10;
+}
+
+@media screen and (min-width: 900px) {
+  .modal {
+    width: 50%;
+    padding: 20px;
+  }
+}
+
+.addlistmodal {
+  top: 20rem !important;
+}
+
+.addlistopen {
+  margin-top: 1rem !important;
 }
 
 .mask {
@@ -390,11 +533,20 @@ button[type="submit"]:hover {
 /* 
 home
 */
+@media screen and (min-width: 900px) {
+  .addmealbutton-wrapper {
+    display: flex;
+    flex-flow: column;
+    margin:0 auto 0;
+  }
 
-.addmealbutton-wrapper {
-  display: flex;
-  flex-flow: column;
-  margin:0 auto 0;
+  .home-flexwrapper {
+    display: flex;
+  }
+
+  div .home-mealopen {
+    height: 4rem;
+  }
 }
 
 .button-subtext {
@@ -402,13 +554,7 @@ home
   display: block;
 }
 
-.home-flexwrapper {
-  display: flex;
-}
 
-div .home-mealopen {
-  height: 4rem;
-}
 
 #todaymealtotal {
   flex-grow: 7;
@@ -429,10 +575,11 @@ div .home-mealopen {
 /* 
 target
 */
-
-.targetwrapper {
-  display: flex;
-  justify-content: space-between;
+@media screen and (min-width: 900px) {
+  .targetwrapper {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .nowtarget {
@@ -440,9 +587,22 @@ target
   margin-left: 2rem;
 }
 
+.targeth2 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
 /* 
 calendar
 */
+
+.calendarh2:nth-child(n + 2)  {
+  margin-top: 1rem;
+}
+
+.calendartable {
+  margin: 0.25rem 0;
+}
 
 .calendardatetr {
   height: 3rem;

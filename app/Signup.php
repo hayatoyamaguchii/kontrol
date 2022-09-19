@@ -32,7 +32,7 @@ function signupSendmail($pdo)
         // 登録可能な場合
           $urltoken = hash('sha256',uniqid(rand(),1));
           $url =SITE_URL . "/signup.php?urltoken=".$urltoken;
-          $_SESSION['mail'] = $mail;
+          $_SESSION['sendmail'] = $mail;
           try{
               $stmt = $pdo->prepare("INSERT INTO pre_user (urltoken, mail, created, status) VALUES (:urltoken, :mail, now(), '0');");
               $stmt->bindValue(':urltoken', $urltoken, PDO::PARAM_STR);
@@ -64,7 +64,7 @@ function signupSendmail($pdo)
   }
 
 function signup($pdo) {
-  $mail = Utils::h($_SESSION['mail']);
+  $mail = Utils::h($_SESSION['sendmail']);
   if ($mail === '') {
     return;
   }
@@ -127,3 +127,28 @@ function login($pdo) {
       $_GET['state'] = 'error';
   }
 }
+
+function changepassword($pdo) {
+    $password = password_hash(trim(filter_input(INPUT_POST, 'password')), PASSWORD_DEFAULT);
+    if ($password === '') {
+      return;
+    }
+    $id = $_SESSION['user'];
+
+    $stmt = $pdo->prepare("UPDATE user SET password = :password, updated = now() WHERE id = :id");
+    $stmt->bindValue('password', $password, PDO::PARAM_STR);
+    $stmt->bindValue('id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+  }
+
+function deleteaccount($pdo){
+    $id = $_SESSION['user'];
+
+    $stmt = $pdo->prepare("DELETE FROM user WHERE id = :id");
+    $stmt->bindValue(':id', $id);
+    $stmt->execute();
+
+    $_SESSION = array();
+    session_destroy();
+    header('Location: ' . SITE_URL . '/index.php');
+  }
